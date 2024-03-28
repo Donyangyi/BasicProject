@@ -1,0 +1,14 @@
+.header {
+    width: calc(100% - 200px);
+    height: 120px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    margin-left: 200px;
+}
+
+.logo img {
+    width: auto;
+    height: 102px;
+    max-width: 100%;
+}

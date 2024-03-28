@@ -1,0 +1,53 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 98vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+    border-color: #d9d9d9;
+}
+
+.menu-item {
+    position: relative;
+}
+
+button {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    border: 1px;
+    text-align: left;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    background: white;
+    text-align: center;
+}
+
+button:hover, .sub-menu button:hover {
+    background-color: #ddd; 
+}
+
+.sub-menu {
+    display: none;
+    position: absolute;
+    left: 200px; 
+    top: 0;
+    box-shadow: 1px 0 5px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.sub-menu button {
+    width: 180px; 
+    padding: 10px;
+    border: none;
+    text-align: left;
+    font-size: 16px; 
+}
+
+.spacer {
+    flex-grow: 1;
+}

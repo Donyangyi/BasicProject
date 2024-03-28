@@ -1,0 +1,76 @@
+/* 헤더, 사이드바 포함한 모든 내용을 감싸는 스타일 */
+.content {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 200px;
+}
+
+/* 공지사항과 사내 게시판을 구분하는 스타일 */
+.left, .right {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 게시판 테이블 스타일 */
+.board {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.board th, .board td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+/* 페이지네이션 스타일 (현재는 사용되지 않으나, 참고용으로 남겨둠) */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    margin: 0 4px;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+/* 게시판 제목 스타일 */
+.left > h2, .right > h2 {
+    margin: 0 0 15px 0;
+}
+
+/* '더보기' 버튼 스타일 */
+.more-button {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.more-button a {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.more-button a:hover {
+    background-color: #45a049;
+}

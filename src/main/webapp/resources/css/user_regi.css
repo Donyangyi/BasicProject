@@ -1,0 +1,232 @@
+body, html {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.container {
+	display: flex;
+	height: 100vh;
+	justify-content: center;
+}
+
+.form-panel {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 66.67%;
+	height: auto;
+	margin: auto;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	border-radius: 20px;
+}
+
+.left-panel {
+	flex: 1;
+	padding: 20px;
+	border-right: 1px solid #ccc;
+	max-width: 200px;
+}
+
+.right-panel {
+	width: 100%;
+	height: 66.67vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 20px;
+	border-radius: 80px;
+	overflow-y: auto;
+}
+
+.form-button {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	padding-top: 20px;
+}
+
+.left-side, .right-side {
+	flex: 1;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+fieldset {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 10px;
+	border-radius: 5px;
+	margin-top: 20px;
+}
+
+fieldset label {
+	display: flex;
+	align-items: center;
+	margin-right: 20px;
+	margin-bottom: 10px;
+	width: 200px;
+}
+
+fieldset>label>input[type=checkbox] {
+	margin-right: 5px;
+}
+
+input[type="file"] {
+	margin-top: 20px;
+	width: 200px;
+	overflow: hidden;
+}
+
+input, select {
+	width: 50%;
+	padding: 8px;
+	margin: 10px 0;
+}
+
+button {
+	cursor: pointer;
+}
+
+#passwordMismatch {
+	color: red;
+	margin-top: 5px;
+}
+
+.required-star {
+	color: red;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+.form-group label {
+	margin-right: 10px;
+	white-space: nowrap;
+}
+
+.input-field, select {
+	width: calc(100% - 20px);
+	border: 1px solid #ccc;
+	background-color: #f9f9f9;
+	padding: 8px;
+	margin-right: 10px;
+}
+
+button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+fieldset {
+	padding: 10px;
+	border-radius: 5px;
+	margin-top: 20px;
+}
+
+fieldset label {
+	margin-bottom: 10px;
+	display: block;
+}
+
+fieldset>label>input[type=checkbox] {
+	margin-right: 10px;
+}
+
+div.right-panel>div.left-side>p {
+	color: red;
+}
+
+.input-field {
+	border-width: 0px;
+}
+
+.logo>a>img {
+	width: 200px;
+	height: 70px;
+}
+
+#userImgPreview {
+	width: 200px;
+	height: 200px;
+}
+
+div.form-panel>div.form-button>button:nth-child(1) {
+	margin-right: 430px;
+	width: 100px;
+	height: 50px;
+	background: #5e17eb;
+	color: white;
+	border-width: 0px;
+}
+
+div.form-panel>div.form-button>button:nth-child(2) {
+	width: 100px;
+	height: 50px;
+	background: #ff3131;
+	color: white;
+	border-width: 0px
+}
+
+div.right-side>form>div>button {
+	background: #28b420;
+	color: white;
+	border-width: 0px;
+}
+
+#customFileUpload {
+	background-color: #43cdd6;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	position: relative;
+	left: 47px;
+}
+
+.validation-message {
+	color: #ff0000;
+	font-size: 0.8rem;
+	margin-top: 5px;
+	display: block;
+}
+
+.phone-group {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+}
+
+.phone-group .phone-prefix {
+    margin-right: 10px; 
+    width: auto; 
+}
+
+.input-field.phone {
+    flex-grow: 1; 
+}
+
+.limit-file-size {
+	margin-left: 15px;
+	margin-top: 10px;
+}
+
+#fileValidationMessage {
+	margin-left: 15px;
+}

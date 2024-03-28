@@ -1,0 +1,53 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main-container {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+thead {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.approve, .reject {
+    padding: 10px 20px;
+    cursor: pointer;
+    min-width: 10%;
+    width: auto;
+}
+
+.approve {
+    margin-left: calc(50% - 400px);
+}
+
+.reject {
+    margin-right: calc(50% - 400px);
+}

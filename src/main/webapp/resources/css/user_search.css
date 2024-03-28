@@ -1,0 +1,230 @@
+.search-container {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+.search-criteria {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    height: 110px;
+}
+
+.criteria-title {
+    width: 100%;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.search-criteria label, .date-criteria label, .recent-label {
+    margin-right: 5px;
+    font-weight: bold;
+    width: auto;
+}
+
+.search-criteria input[type="text"],
+.search-criteria select,
+.date-criteria input[type="date"] {
+    padding: 5px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: auto;
+}
+
+.recent-dates {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.date-button {
+    padding: 5px 10px;
+    margin-right: 10px;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto;
+}
+
+.date-button:hover {
+    background-color: #e8e8e8;
+}
+
+.recent-label {
+    align-self: flex-start;
+    margin: 10px 50px 0;
+    width: 110px;
+}
+
+.search-results {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+thead {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.pagination a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    margin: 0 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+#start-date, #end-date {
+    margin: 0 10px;
+    height: 25px;
+    width: 7%;
+}
+
+.start-label {
+    width: 110px;
+}
+
+.criteria-content {
+    width: 100%;
+}
+
+th > a {
+    color: blue;
+    text-decoration: none;
+}
+
+th > a:visited {
+    color: blue;
+}
+
+th > a:hover, th > a:active {
+    color: red;
+}
+
+.search-button:hover {
+    background-color: #45a049
+}
+
+.search-button { 
+	    padding: 5px 15px;
+	    margin-left: 10px;
+	    background-color: #4CAF50;
+	    color: white;
+	    border: none;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    font-size: 16px;
+	    width: 120px;
+	}
+
+.reset-button { 
+	    padding: 5px 15px;
+	    margin-left: 10px;
+	    background-color: #4CAF50;
+	    color: white;
+	    border: none;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    font-size: 16px;
+	    width: 120px;
+	}
+	
+div.search-results > table > tbody > tr > th > button {
+		width: 40%
+	}
+	
+.search-results tbody tr td a {
+    color: blue;
+    text-decoration: none;
+}
+
+.search-results tbody tr td a:hover,
+.search-results tbody tr td a:active,
+.search-results tbody tr td a:visited {
+    color: blue;
+}
+
+.search-results tbody tr:hover,
+.search-results-popup tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+.open-popup-project {
+    background-color: transparent;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    width: auto;
+}
+
+.open-popup-project:hover {
+    background-color: #e8e8e8;
+}
+
+.delete-button {
+    margin-left: auto;
+    background: #ff3131;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: auto;
+    position: relative;
+    bottom: 60px;
+}
+
+.add-employee-button {
+    background: #5e17eb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: auto;
+    position: relative;
+    bottom: 60px;
+}
+
+.delete-button-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
