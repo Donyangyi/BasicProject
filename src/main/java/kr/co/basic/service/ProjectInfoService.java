@@ -2,6 +2,7 @@ package kr.co.basic.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,6 +96,24 @@ public class ProjectInfoService {
 		try {
 			projectInfoMapper.addProject(projectInfo);
 			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean addPrjSkill(ProjectInfo projectInfo) {
+		try {
+			if(projectInfo.getSkills() != null) {
+				List<String> dtlCodes = projectInfo.getSkills();
+				for(String dtlCode : dtlCodes) {
+					projectInfoMapper.addPrjSkill(projectInfo.getPrjSeq(), dtlCode);
+				}
+				return true;
+			} else {
+				return true;
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

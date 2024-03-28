@@ -97,9 +97,12 @@ public class RestProjectController {
 	public ResponseEntity<?> addProject(@RequestBody ProjectInfo projectInfo){
 		boolean isAdd = projectInfoService.addProject(projectInfo);
 		if (isAdd) {
-			
-			
-			return ResponseEntity.ok(Map.of("success", true, "message", "프로젝트 등록 성공"));
+			boolean isAddSkill = projectInfoService.addPrjSkill(projectInfo);
+			if(isAddSkill) {
+				return ResponseEntity.ok(Map.of("success", true, "message", "프로젝트 등록 성공"));
+			} else {
+				return ResponseEntity.ok(Map.of("success", true, "message", "프로젝트 등록 성공 (필요 스킬이 없는 상태 입니다.)"));
+			}
 		} else {
 			return ResponseEntity.ok(Map.of("success", false, "message", "프로젝트 등록 실패"));
 		}
