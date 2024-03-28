@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import kr.co.basic.bean.CodeDetail;
 import kr.co.basic.bean.ProjectInfo;
 import kr.co.basic.bean.UserProjectInfo;
+import kr.co.basic.bean.UserSkill;
 import kr.co.basic.dao.ProjectInfoDao;
+import kr.co.basic.dao.UserDao;
 import kr.co.basic.service.ProjectInfoService;
 import kr.co.basic.service.UserInfoService;
 
@@ -29,6 +31,9 @@ public class ProjectInfoController {
 	@Autowired
 	private UserInfoService userInfoService;
 	
+	@Autowired
+	private UserDao userDao;
+	
 	@GetMapping("/project_search")
 	public String project_search(Model model) {
 		List<ProjectInfo> prjList = projectInfoService.getAllPrj();
@@ -38,7 +43,12 @@ public class ProjectInfoController {
 	}
 	
 	@GetMapping("/project_register")
-	public String project_register() {
+	public String project_register(Model model) {
+		List<UserSkill> skillBean = userDao.searchAllSkill();
+		model.addAttribute("skillBean", skillBean);
+		
+		List<UserSkill> customerBean = userDao.searchAllCustomer();
+		model.addAttribute("customerBean", customerBean);
 		return "project_info/project_register";
 	}
 	

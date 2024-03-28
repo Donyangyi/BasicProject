@@ -37,6 +37,7 @@ body {
     margin-bottom: 20px;
 }
 
+
 .important {
     display: block;
     margin-bottom: 20px;
@@ -62,7 +63,7 @@ label {
 
 input[type="text"], input[type="date"] {
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid;
     border-radius: 4px;
 }
 
@@ -110,4 +111,9 @@ fieldset > label > input[type=checkbox] {
 
 .btn.cancel {
     background-color: #f44336;
+}
+
+#customer-select {
+	width: 85%;
+	height: 35px;
 }

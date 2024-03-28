@@ -13,6 +13,8 @@ import kr.co.basic.bean.CodeDetail;
 import kr.co.basic.bean.ProjectInfo;
 import kr.co.basic.bean.UserInfo;
 import kr.co.basic.bean.UserProjectInfo;
+import kr.co.basic.bean.UserSkill;
+import kr.co.basic.dao.UserDao;
 import kr.co.basic.dao.UserInfoDao;
 import kr.co.basic.service.UserInfoService;
 
@@ -26,9 +28,21 @@ public class UserInfoController {
 	@Autowired
 	private UserInfoService userInfoService;
 	
+	@Autowired
+	private UserDao userDao;
+	
 	@GetMapping("/user_search")
 	public String user_search(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
 		model.addAttribute("page", page);
+		
+		List<UserSkill> positionBean = userDao.searchAllPosition();
+		model.addAttribute("positionBean", positionBean);
+		
+		List<UserSkill> workStateBean = userDao.searchAllWorkState();
+		model.addAttribute("workStateBean", workStateBean);
+		
+		List<UserSkill> listCountBean = userDao.searchAllListCount();
+		model.addAttribute("listCountBean", listCountBean);
 		return "user_info/user_search"; 
 	}
 	

@@ -1,5 +1,7 @@
 package kr.co.basic.bean;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +19,7 @@ public class ProjectInfo {
 	
 	private String customerNm;
 	private String skill;
+	private List<String> skills;
 	
 	//검색 조건용
 	private String startFromDate;

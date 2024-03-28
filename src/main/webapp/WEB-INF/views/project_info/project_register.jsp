@@ -10,6 +10,7 @@
     <title>OJT</title>
     <link href="${root}css/project_register.css" rel="stylesheet" />
     <c:import url="/WEB-INF/views/include/version.jsp" /> <!-- 버전 관리 -->
+    <script src="${root}js/project_regi.js"></script>
 </head>
 <body>
 	<c:import url="/WEB-INF/views/include/top_logo.jsp" /> <!-- 상단 로고 (헤더 영역) -->
@@ -24,7 +25,12 @@
                 </div>
                 <div class="form-row">
                     <label for="clientName">고객사명*</label>
-                    <input type="text" id="clientName">
+                    <select id="customer-select">
+                    <option value="">선택</option>
+                    	<c:forEach items="${customerBean}" var="customer">
+                    		<option value="${customer.dtlCode}">${customer.dtlCodeNm}</option>
+                    	</c:forEach>
+                    </select>
                 </div>
                 <div class="form-row">
                     <label for="projectStart">프로젝트 기간*</label>
@@ -32,22 +38,17 @@
                 </div>
                 <fieldset>
 					<legend>보유 기술</legend>
-					<label><input type="checkbox" name="skills" value="Java">Java</label>
-					<label><input type="checkbox" name="skills" value="JavaScript">JavaScript</label>
-					<label><input type="checkbox" name="skills" value="Spring">Spring</label>
-					<label><input type="checkbox" name="skills" value="HTML/CSS">HTML/CSS</label>
-					<label><input type="checkbox" name="skills" value="C#">C#</label>
-					<label><input type="checkbox" name="skills" value="jQuery">jQuery</label>
-					<label><input type="checkbox" name="skills" value="SQL">SQL</label>
-					<label><input type="checkbox" name="skills" value="React">React</label>
+					<c:forEach items="${skillBean}" var="skill">
+						<label><input type="checkbox" name="skills" value="${skill.dtlCode}">${skill.dtlCodeNm}</label>
+					</c:forEach>
 				</fieldset>
             </div>
             <div class="right-section">
 			    <label for="details">상세 설명</label>
 			    <textarea id="details"></textarea>
 			    <div class="buttons-container">
-			        <button type="submit" class="btn">등록</button>
-			        <button type="button" class="btn cancel">취소</button>
+			        <button class="btn" id="register-button">등록</button>
+			        <button class="btn cancel" id="cancel-button">취소</button>
 			    </div>
 			</div>
         </div>

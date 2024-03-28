@@ -44,8 +44,23 @@ public class UserDao {
 		return userMapper.searchAllEmail();
 	}
 	
+	// 모든 재직상태 정보 조회
+	public List<UserSkill> searchAllWorkState() {
+		return userMapper.searchAllWorkState();
+	}
+	
+	// 리스트 수 조회
+	public List<UserSkill> searchAllListCount() {
+		return userMapper.searchAllListCount();
+	}
+	
 	// 모든 이메일 정보 조회
 	public void regiUserPro(UserInfo userInfo) {
 		userMapper.regiUserPro(userInfo);
+	}
+	
+	// 모든 고객사 정보 조회
+	public List<UserSkill> searchAllCustomer() {
+		return userMapper.searchAllCustomer();
 	}
 }

@@ -24,6 +24,7 @@ import kr.co.basic.bean.UserProjectInfo;
 import kr.co.basic.dao.ProjectInfoDao;
 import kr.co.basic.service.ProjectInfoService;
 import kr.co.basic.service.UserInfoService;
+import oracle.jdbc.proxy.annotation.Post;
 
 @RestController
 public class RestProjectController {
@@ -87,6 +88,20 @@ public class RestProjectController {
 			return ResponseEntity.ok(Map.of("success", true, "message", "프로젝트 인원 등록 성공"));
 		} else {
 			return ResponseEntity.ok(Map.of("success", false, "message", "프로젝트 인원 등록 실패"));
+		}
+	}
+	
+	//=====================================================Project Register==============================================================
+	//프로젝트 등록
+	@PostMapping("project_info/add_prj_pro")
+	public ResponseEntity<?> addProject(@RequestBody ProjectInfo projectInfo){
+		boolean isAdd = projectInfoService.addProject(projectInfo);
+		if (isAdd) {
+			
+			
+			return ResponseEntity.ok(Map.of("success", true, "message", "프로젝트 등록 성공"));
+		} else {
+			return ResponseEntity.ok(Map.of("success", false, "message", "프로젝트 등록 실패"));
 		}
 	}
 }

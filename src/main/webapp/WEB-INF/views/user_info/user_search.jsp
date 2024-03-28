@@ -27,23 +27,17 @@
 		        <input type="text" id="employee_name" placeholder="사원명">
 		        <label for="position">직급</label>
 		        <select id="position" name="position">
-		            <option value="">직급</option>
-		            <option value="1">사장</option>
-		            <option value="2">상무</option>
-		            <option value="3">이사</option>
-		            <option value="4">부장</option>
-		            <option value="5">차장</option>
-		            <option value="6">과장</option>
-		            <option value="7">대리</option>
-		            <option value="8">사원</option>
-		            <!-- 직급 옵션 -->
+		        <option value="">선택</option>
+		        <c:forEach items="${positionBean}" var="pos">
+		        	<option value="${pos.dtlCode}">${pos.dtlCodeNm}</option>
+		        </c:forEach>
 		        </select>
 		        <label for="employment_status">재직 상태</label>
 		        <select id="employment_status" name="employment_status">
-		            <option value="">재직 상태</option>
-		            <option value="1">재직중</option>
-		            <option value="2">휴직중</option>
-		            <!-- 재직 상태 옵션 -->
+		            <option value="">선택</option>
+		            <c:forEach items="${workStateBean}" var="work">
+		            	<option value="${work.dtlCode}">${work.dtlCodeNm}</option>
+		            </c:forEach>
 		        </select>
 	        </div>
 	        <div class="recent-dates">
@@ -64,9 +58,9 @@
 	        <div class="list-size-selector" style="text-align:right; margin-bottom: 10px;">
 	            <label for="listSize">리스트 수:</label>
 	            <select id="listSize" name="listSize">
-	                <option value="5" selected>5</option>
-	                <option value="10">10</option>
-	                <option value="15">15</option>
+	            	<c:forEach items="${listCountBean}" var="listCount">
+	            		<option value="${listCount.dtlCodeNm}">${listCount.dtlCodeNm}</option>
+	            	</c:forEach>
 	            </select>
 	        </div>
             <table>

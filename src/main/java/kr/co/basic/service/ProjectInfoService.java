@@ -4,16 +4,21 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.basic.bean.ProjectInfo;
 import kr.co.basic.bean.UserProjectInfo;
 import kr.co.basic.dao.ProjectInfoDao;
+import kr.co.basic.mapper.ProjectInfoMapper;
 
 @Service
 public class ProjectInfoService {
 	
 	@Autowired
 	private ProjectInfoDao projectInfoDao;
+	
+	@Autowired
+	private ProjectInfoMapper projectInfoMapper;
 	
 	// 모든 프로젝트 조회
 	public List<ProjectInfo> getAllPrj(){
@@ -84,4 +89,15 @@ public class ProjectInfoService {
 		return prjInfo;
 	}
 	
+	// 프로젝트 등록
+	@Transactional
+	public boolean addProject(ProjectInfo projectInfo) {
+		try {
+			projectInfoMapper.addProject(projectInfo);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

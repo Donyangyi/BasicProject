@@ -27,6 +27,14 @@ public interface UserMapper {
 	@Select("select dtlCode, dtlCodeNm from code_detail where dCode = 'D030' order by TO_NUMBER(dtlCode)")
 	List<UserSkill> searchAllSkillLevel();
 	
+	// 모든 재직상태 정보 조회
+	@Select("select dtlCode, dtlCodeNm from code_detail where dCode = 'D040' order by TO_NUMBER(dtlCode)")
+	List<UserSkill> searchAllWorkState();
+	
+	// 모든 고객사 정보 조회
+	@Select("select dtlCode, dtlCodeNm from code_detail where dCode = 'D050' order by TO_NUMBER(dtlCode)")
+	List<UserSkill> searchAllCustomer();
+	
 	// 모든 전화번호 정보 조회
 	@Select("select dtlCode, dtlCodeNm from code_detail where dCode = 'D100' order by TO_NUMBER(dtlCode)")
 	List<UserSkill> searchAllPhoneNumber();
@@ -34,6 +42,10 @@ public interface UserMapper {
 	// 모든 이메일 정보 조회
 	@Select("select dtlCode, dtlCodeNm from code_detail where dCode = 'D110' order by TO_NUMBER(dtlCode)")
 	List<UserSkill> searchAllEmail();
+	
+	// 리스트 수 조회
+	@Select("select dtlCode, dtlCodeNm from code_detail where dCode = 'D120' order by TO_NUMBER(dtlCode)")
+	List<UserSkill> searchAllListCount();
 	
 	// 아이디 중복 검사
 	@Select("select userId from info_user where userId = #{userId}")

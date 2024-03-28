@@ -2,8 +2,10 @@ package kr.co.basic.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 
 import kr.co.basic.bean.ProjectInfo;
 import kr.co.basic.bean.UserInfo;
@@ -100,5 +102,12 @@ public interface ProjectInfoMapper {
 			+ "AND (#{skillRankCd, jdbcType=VARCHAR} IS NULL OR u.skillRankCd = #{skillRankCd}) "
 			+ "ORDER BY u.userSeq")
 	List<UserInfo> getConUserList(UserProjectInfo userProjectInfo);
+	
+	// ============================================================Project Register================================================================================
+	// 프로젝트 등록
+	@SelectKey(statement = "select 'P'||lpad(prjSeq_inc.nextval, 3, 0) from dual", keyProperty = "prjSeq", before = true, resultType = String.class)
+	@Insert("INSERT INTO INFO_PROJECT (prjSeq, prjNm, customerCd, prjStartDate, prjEndDate, prjDetail) "
+			+ "VALUES (#{prjSeq}, #{prjNm}, #{customerCd}, #{prjStartDate}, #{prjEndDate}, #{prjDetail})")
+	void addProject(ProjectInfo projectInfo);
 	
 }

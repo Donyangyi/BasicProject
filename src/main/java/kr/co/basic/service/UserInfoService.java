@@ -141,6 +141,7 @@ public class UserInfoService {
 		return prjList;
 	}
 	
+	// 프로젝트에 인원 추가
 	public boolean prjAddPro(List<UserProjectInfo> userProjectsInfo){
 		try {
 			for(UserProjectInfo userProjectInfo : userProjectsInfo) {
