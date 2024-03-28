@@ -59,6 +59,10 @@
                 </tbody>
             </table>
         </div>
+        <div class="delete-button-container">
+			<button class="add-project-button" style="display: none;" onclick="location.href='${root}project_info/project_register'">추가</button>
+	        <button class="delete-project-button" style="display: none;">삭제</button>
+	    </div>
     </div>
     <!-- 모달 마크업 -->
     <div id="modal" class="modal">

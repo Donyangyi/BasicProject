@@ -132,6 +132,8 @@ function searchProject() {
         data: JSON.stringify(searchCriteria),
         success: function(response) {
             updateProject(response);
+            $(".delete-project-button").show();
+            $(".add-project-button").show();
         },
         error: function(xhr, status, error) {
             console.error(xhr.status);
