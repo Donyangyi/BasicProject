@@ -37,7 +37,8 @@ public interface UserInfoMapper {
 			+ "WHERE (iu.userNm LIKE #{userNm, jdbcType=VARCHAR} OR #{userNm, jdbcType=VARCHAR} IS NULL) "
 			+ "  AND (pd.dtlCode = #{posCd, jdbcType=VARCHAR} OR #{posCd, jdbcType=VARCHAR} IS NULL) "
 			+ "  AND (wsd.dtlCode = #{workStateCd, jdbcType=VARCHAR} OR #{workStateCd, jdbcType=VARCHAR} IS NULL) "
-			+ "  AND (iu.regiDate BETWEEN #{startDate, jdbcType=VARCHAR} AND #{endDate, jdbcType=VARCHAR} OR (#{startDate, jdbcType=VARCHAR} IS NULL AND #{endDate, jdbcType=VARCHAR} IS NULL))"
+			+ "  AND (iu.regiDate BETWEEN #{startDate, jdbcType=VARCHAR} AND #{endDate, jdbcType=VARCHAR} OR (#{startDate, jdbcType=VARCHAR} IS NULL AND #{endDate, jdbcType=VARCHAR} IS NULL)) "
+			+ "  AND iu.userStateCd = #{userStateCd} "
 			+ "  ORDER BY iu.userSeq")
 	ArrayList<UserInfo> userAllSearch(UserInfo userInfo, RowBounds rowBounds);
 	
@@ -56,13 +57,13 @@ public interface UserInfoMapper {
 	
 	// 한 유저에 대한 정보
 	@Select("SELECT iu.userSeq, iu.userNm, iu.userId, iu.userPw, "
-			+ "       gd.dtlCodeNm AS gender, "
+			+ "       iu.genderCd, gd.dtlCodeNm AS gender, "
 			+ "       iu.phonenumber, iu.regidate, "
-			+ "       pd.dtlCodeNm AS position, "
-			+ "       skd.dtlCodeNm AS skillRank, "
+			+ "       iu.posCd ,pd.dtlCodeNm AS position, "
+			+ "       iu.skillRankCd, skd.dtlCodeNm AS skillRank, "
 			+ "       iu.email, iu.address, "
-			+ "       wsd.dtlCodeNm AS workState, "
-			+ "       usd.dtlCodeNm AS userState, "
+			+ "       iu.workStateCd, wsd.dtlCodeNm AS workState, "
+			+ "       iu.userStateCd, usd.dtlCodeNm AS userState, "
 			+ "       iu.userRegiDate, iu.userImage "
 			+ "FROM INFO_USER iu "
 			+ "INNER JOIN CODE_DETAIL gd ON iu.genderCd = gd.dtlCode AND gd.dCode = 'D010' "
@@ -113,6 +114,7 @@ public interface UserInfoMapper {
 	
 	// ============================================================Modal================================================================================
 	// 해당 유저가 참여하지 않으며 검색 조건의 의한 프로젝트 조회
+	/* prjDetail의 자료 형태가 VARCHAR2일때
 	@Select("SELECT DISTINCT "
 			+ "    ip.prjSeq, "
 			+ "    ip.prjNm, "
@@ -133,6 +135,32 @@ public interface UserInfoMapper {
 			+ "    AND cnd.dtlCodeNm LIKE NVL(#{customerNm, jdbcType=VARCHAR}, '%')  "
 			+ "ORDER BY "
 			+ "    ip.prjSeq")
+	List<ProjectInfo> getConPrjList(UserProjectInfo userProjectInfo);
+	*/
+	
+	// prjDetail의 자료 형태가 CLOB일때
+	@Select("SELECT DISTINCT "
+	        + "    ip.prjSeq, "
+	        + "    ip.prjNm, "
+	        + "    ip.customerCd, "
+	        + "    ip.prjStartDate, "
+	        + "    ip.prjEndDate, "
+	        // CLOB 데이터를 VARCHAR로 변환하는 예시 추가
+	        // DBMS_LOB.substr 함수를 사용하여 CLOB 데이터의 처음 4000 바이트(혹은 문자)를 추출
+	        + "    DBMS_LOB.substr(ip.prjDetail, 4000, 1) as prjDetail, "
+	        + "    cnd.dtlCodeNm AS customerNm "
+	        + "FROM "
+	        + "    info_project ip "
+	        + "LEFT JOIN "
+	        + "    info_user_project iup ON ip.prjSeq = iup.prjSeq AND iup.userSeq = #{userSeq} "
+	        + "JOIN "
+	        + "    code_detail cnd ON ip.customerCd = cnd.dtlCode AND cnd.dCode = 'D050' "
+	        + "WHERE "
+	        + "    iup.prjSeq IS NULL "
+	        + "    AND ip.prjNm LIKE NVL(#{prjNm, jdbcType=VARCHAR}, '%') "
+	        + "    AND cnd.dtlCodeNm LIKE NVL(#{customerNm, jdbcType=VARCHAR}, '%')  "
+	        + "ORDER BY "
+	        + "    ip.prjSeq")
 	List<ProjectInfo> getConPrjList(UserProjectInfo userProjectInfo);
 	
 	// 해당 프로젝트의 필요 스킬 조회

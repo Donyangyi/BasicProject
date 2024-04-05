@@ -11,7 +11,7 @@
         <div class="sub-menu">
             <button onclick="location.href='${root}user_info/user_search'">사원 정보 조회</button>
             <button onclick="location.href='${root}user_info/user_regi_list'">사원 등록 대기 리스트</button>
-            <button onclick="location.href='${root}user/user_regi'">사원 등록</button>
+            <button onclick="location.href='${root}user_info/user_regi_admin'">사원 등록</button>
         </div>
     </div>
     <div class="menu-item">

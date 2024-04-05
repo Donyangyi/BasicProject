@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Project Detail</title>
+    <title>OJT</title>
     <link href="${root}css/project_detail.css" rel="stylesheet" />
     <link href="${root}css/modal.css" rel="stylesheet" /> <!-- 모달창 -->
     <c:import url="/WEB-INF/views/include/version.jsp" /> <!-- 버전 관리 -->
@@ -15,6 +15,7 @@
     <script src="${root}js/popup_project.js"></script> <!-- 프로젝트명, 고객사명 유효성 검사 기능 -->
     <script src="${root}js/popup_user.js"></script>
     <script src="${root}js/project_detail.js"></script>
+    <script src="${root}js/date_validation.js"></script> <!-- 날짜 유효성 검사 -->
     <script type="text/javascript">
     	var now = 'prjDetail';
     </script>
@@ -36,8 +37,8 @@
                     <input type="text" id="clientName" readonly value="${prjInfo.customerNm}"></div>
                     
                     <div><label for="projectPeriod">프로젝트 기간:</label>
-                    <input type="date" id="startDate" value="${prjInfo.prjStartDate}" readonly> ~
-                    <input type="date" id="endDate" value="${prjInfo.prjEndDate}" readonly></div>
+                    <input type="date" id="startDate" value="${prjInfo.prjStartDate}" readonly="readonly"> ~
+                    <input type="date" id="endDate" value="${prjInfo.prjEndDate}" readonly="readonly"></div>
                     
                     <div><label for="requiredSkills">필요 기술:</label>
                     <input type="text" id="requiredSkills" readonly value="${prjInfo.skill}"></div>
@@ -48,14 +49,15 @@
             <div class="detail-info-header">
                 <label for="detailInfo">상세 정보:</label>
                 <div class="edit-button">
-                    <button onclick="location.href='${root}project_info/project_edit'">프로젝트 수정</button>
+                    <button onclick="location.href='${root}project_info/project_edit?prjSeq=${prjInfo.prjSeq}'">프로젝트 수정</button>
                 </div>
             </div>
-            <textarea id="detailInfo" readonly>${prjInfo.prjDetail}</textarea>
+            <textarea id="detailInfo">${prjInfo.prjDetail}</textarea>
         </div>
     </div>
     <!-- 테이블 부분 -->
     <div class="search-results">
+    	 <div class="table-scroll">
         <table class="table">
             <thead>
                 <tr>
@@ -73,10 +75,10 @@
 	                    <td><input type="checkbox"></td>
 	                    <td>${user.userSeq}</td>
 	                    <td>${user.userNm}</td>
-	                    <td><input type="date" id="start-date" value="${user.upStartDate}"></td>
-	                    <td><input type="date" id="end-date" value="${user.upEndDate}"></td>
+	                    <td><input type="date" class="date-valid" id="start-date" value="${user.upStartDate}" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}" required></td>
+	                    <td><input type="date" class="date-valid" id="end-date" value="${user.upEndDate}" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}"></td>
 	                    <td>
-	                        <select>
+	                        <select required>
 	                        	<c:forEach items="${roleList}" var="role">
 	                        		<c:choose>
 		                        		<c:when test="${user.roleCd == role.dtlCode}">
@@ -93,6 +95,7 @@
 	            </c:forEach>
             </tbody>
         </table>
+        </div>
         <!-- 버튼 그룹 -->
         <div class="button-group">
             <button class="update-project-user">변경 사항 저장</button>

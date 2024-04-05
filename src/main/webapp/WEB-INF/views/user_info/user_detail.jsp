@@ -10,8 +10,10 @@
 <c:import url="/WEB-INF/views/include/version.jsp" /> <!-- 버전 관리 -->
 <link href="${root}css/user_detail.css" rel="stylesheet" />
 <link href="${root}css/modal.css" rel="stylesheet" />
+<script src="${root}js/date_validation.js"></script> <!-- 날짜 유효성 검사 (02/31 처리) -->
 <script src="${root}js/user_search.js"></script> <!-- 모달 창 및 테이블 기능 (행 선택, 전체 선택) -->
 <script src="${root}js/user_detail.js"></script>
+
 <script>
     var now = 'userDetail';
 </script>
@@ -23,7 +25,7 @@
         <div class="user-info">
             <!-- 이미지 패널 -->
             <div class="image-panel">
-                <img src="${root}image/user-placeholder.png" alt="Profile Image" />
+                <img src="${root}upload/${userBean.userImage}" alt="Profile Image" />
             </div>
             <!-- 사원 정보 -->
             <div class="info-panel">
@@ -45,47 +47,49 @@
         </div>
         <!-- 프로젝트 리스트 -->
         <div class="search-results">
-            <table>
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" id="select-all"></th>
-                        <th>프로젝트 번호</th>
-                        <th>프로젝트 명</th>
-                        <th>고객사명</th>
-                        <th>투입일</th>
-                        <th>철수일</th>
-                        <th>역할</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="${userProjectInfo}" var="userPrj">
-                    <tr>
-                    	<td><input type="checkbox"></td>
-                        <td>${userPrj.prjSeq}</td>
-                        <td>${userPrj.prjNm}</td>
-                        <td>${userPrj.customerNm}</td>
-                        <td class="hidden-date"><input type="date" class="project-start-date" value="${userPrj.prjStartDate}" onkeydown="return false;"></td>
-						<td class="hidden-date"><input type="date" class="project-end-date" value="${userPrj.prjEndDate}" onkeydown="return false;"></td>
-						<td><input type="date" class="user-start-date" value="${userPrj.upStartDate}" onkeydown="return false;"></td>
-						<td><input type="date" class="user-end-date" value="${userPrj.upEndDate}" onkeydown="return false;"></td>
-                        <td>
-                            <select>
-                                <c:forEach items="${roleList}" var="role">
-                                	<c:choose>
-                                		<c:when test="${role.dtlCode == userPrj.roleCd}">
-                                			<option value="${userPrj.roleCd}" selected>${role.dtlCodeNm}</option>
-                                		</c:when>
-                                		<c:otherwise>
-                                			<option value="${role.dtlCode}">${role.dtlCodeNm}</option>
-                                		</c:otherwise>
-                                	</c:choose>
-                                </c:forEach>
-                            </select>
-                        </td>
-                    </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+        	<div class="table-scroll">
+	            <table>
+	                <thead>
+	                    <tr>
+	                        <th><input type="checkbox" id="select-all"></th>
+	                        <th>프로젝트 번호</th>
+	                        <th>프로젝트 명</th>
+	                        <th>고객사명</th>
+	                        <th>투입일</th>
+	                        <th>철수일</th>
+	                        <th>역할</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <c:forEach items="${userProjectInfo}" var="userPrj">
+	                    <tr>
+	                    	<td><input type="checkbox"></td>
+	                        <td>${userPrj.prjSeq}</td>
+	                        <td>${userPrj.prjNm}</td>
+	                        <td>${userPrj.customerNm}</td>
+	                        <td class="hidden-date"><input type="date" class="project-start-date" value="${userPrj.prjStartDate}" onkeydown="return false;"></td>
+							<td class="hidden-date"><input type="date" class="project-end-date" value="${userPrj.prjEndDate}" onkeydown="return false;"></td>
+							<td><input type="date" class="user-start-date date-valid" value="${userPrj.upStartDate}" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}" required></td>
+							<td><input type="date" class="user-end-date date-valid" value="${userPrj.upEndDate}" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}"></td>
+	                        <td>
+	                            <select>
+	                                <c:forEach items="${roleList}" var="role">
+	                                	<c:choose>
+	                                		<c:when test="${role.dtlCode == userPrj.roleCd}">
+	                                			<option value="${userPrj.roleCd}" selected>${role.dtlCodeNm}</option>
+	                                		</c:when>
+	                                		<c:otherwise>
+	                                			<option value="${role.dtlCode}">${role.dtlCodeNm}</option>
+	                                		</c:otherwise>
+	                                	</c:choose>
+	                                </c:forEach>
+	                            </select>
+	                        </td>
+	                    </tr>
+	                    </c:forEach>
+	                </tbody>
+	            </table>
+            </div>
             <!-- 버튼 그룹 -->
             <div class="button-group">
                 <button class="update-button">변경 사항 저장</button>

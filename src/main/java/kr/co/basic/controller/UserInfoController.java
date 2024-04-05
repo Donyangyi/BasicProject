@@ -73,8 +73,82 @@ public class UserInfoController {
 	}
 	
 	@GetMapping("/user_edit")
-	public String user_edit() {
+	public String user_edit(@RequestParam(value = "userSeq") String userSeq, Model model) {
+		// 모든 스킬 정보 조회
+		List<UserSkill> skillBean = userDao.searchAllSkill();
+		model.addAttribute("skillBean", skillBean);
+		
+		// 모든 성별 정보 조회
+		List<UserSkill> genderBean = userDao.searchAllGender();
+		model.addAttribute("genderBean", genderBean);
+		
+		// 모든 직급 정보 조회
+		List<UserSkill> positionBean = userDao.searchAllPosition();
+		model.addAttribute("positionBean", positionBean);
+		
+		// 모든 기술등급 정보 조회
+		List<UserSkill> skillLevelBean = userDao.searchAllSkillLevel();
+		model.addAttribute("skillLevelBean", skillLevelBean);
+		
+		// 모든 기술등급 정보 조회
+		List<UserSkill> phoneNumberBean = userDao.searchAllPhoneNumber();
+		model.addAttribute("phoneNumberBean", phoneNumberBean);
+		
+		// 모든 기술등급 정보 조회
+		List<UserSkill> emailBean = userDao.searchAllEmail();
+		model.addAttribute("emailBean", emailBean);
+		
+		// 유저 개인 정보
+		UserInfo userBean = userInfoDao.getUserInfo(userSeq);
+		model.addAttribute("userBean", userBean);
+		
+		// 해당 회원의 보유 스킬
+		List<UserSkill> skillList = userDao.getUserSkills(userSeq);
+		model.addAttribute("skillList", skillList);
+		
+		// 모든 재직상태 조회
+		List<UserSkill> workStateBean = userDao.searchAllWorkState();
+		model.addAttribute("workStateBean", workStateBean);
+		
+		model.addAttribute("userSeq", userSeq);
 		return "user_info/user_edit";
+	}
+	
+	@GetMapping("/user_regi_admin")
+	public String main(Model model) {
+		// 모든 스킬 정보 조회
+		List<UserSkill> skillBean = userDao.searchAllSkill();
+		model.addAttribute("skillBean", skillBean);
+		
+		// 모든 성별 정보 조회
+		List<UserSkill> genderBean = userDao.searchAllGender();
+		model.addAttribute("genderBean", genderBean);
+		
+		// 모든 직급 정보 조회
+		List<UserSkill> positionBean = userDao.searchAllPosition();
+		model.addAttribute("positionBean", positionBean);
+		
+		// 모든 기술등급 정보 조회
+		List<UserSkill> skillLevelBean = userDao.searchAllSkillLevel();
+		model.addAttribute("skillLevelBean", skillLevelBean);
+		
+		// 모든 전화번호 정보 조회
+		List<UserSkill> phoneNumberBean = userDao.searchAllPhoneNumber();
+		model.addAttribute("phoneNumberBean", phoneNumberBean);
+		
+		// 모든 기술등급 정보 조회
+		List<UserSkill> emailBean = userDao.searchAllEmail();
+		model.addAttribute("emailBean", emailBean);
+		
+		// 모든 재직상태 조회
+		List<UserSkill> workStateBean = userDao.searchAllWorkState();
+		model.addAttribute("workStateBean", workStateBean);
+		
+		// 모든 등록상태 조회
+		List<UserSkill> regiStateBean = userDao.searchAllRegiState();
+		model.addAttribute("regiStateBean", regiStateBean);
+		
+		return "user_info/user_regi_admin";
 	}
 	
 	@GetMapping("/user_regi_list")

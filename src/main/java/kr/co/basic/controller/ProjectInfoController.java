@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.basic.bean.CodeDetail;
 import kr.co.basic.bean.ProjectInfo;
+import kr.co.basic.bean.ProjectSkill;
 import kr.co.basic.bean.UserProjectInfo;
 import kr.co.basic.bean.UserSkill;
 import kr.co.basic.dao.ProjectInfoDao;
@@ -49,6 +51,7 @@ public class ProjectInfoController {
 		
 		List<UserSkill> customerBean = userDao.searchAllCustomer();
 		model.addAttribute("customerBean", customerBean);
+		
 		return "project_info/project_register";
 	}
 	
@@ -70,7 +73,21 @@ public class ProjectInfoController {
 	}
 	
 	@GetMapping("/project_edit")
-	public String project_edit() {
+	public String project_edit(@RequestParam(value = "prjSeq") String prjSeq, Model model) {
+		List<UserSkill> skillBean = userDao.searchAllSkill();
+		model.addAttribute("skillBean", skillBean);
+		
+		List<UserSkill> customerBean = userDao.searchAllCustomer();
+		model.addAttribute("customerBean", customerBean);
+		
+		ProjectInfo prjBean = projectInfoDao.getPrjInfo(prjSeq);
+		model.addAttribute("prjBean", prjBean);
+		
+		List<ProjectSkill> prjSkillBean = projectInfoDao.getSelectedPrjSkill(prjSeq);
+		model.addAttribute("prjSkillBean", prjSkillBean);
+		
+		model.addAttribute("prjSeq", prjSeq);
+		
 		return "project_info/project_edit";
 	}
 	

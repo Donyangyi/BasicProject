@@ -27,9 +27,6 @@ public class PageBean {
 			pageCnt++;
 		}
 		
-		//min = ((currentPage - 1) / contentPageCnt) * contentPageCnt + 1;
-		//max = min + paginationCnt - 1;
-		
 		min = ((currentPage - 1) / paginationCnt) * paginationCnt + 1;
 		max = Math.min(min + paginationCnt - 1, pageCnt);
 		

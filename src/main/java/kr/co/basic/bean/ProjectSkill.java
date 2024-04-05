@@ -8,4 +8,6 @@ import lombok.Setter;
 public class ProjectSkill {
 	private String prjSeq;
 	private String dtlCode;
+	
+	private String dtlCodeNm;
 }

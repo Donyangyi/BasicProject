@@ -73,6 +73,11 @@
 	margin-top: 10px;
 }
 
+.table-scroll {
+	overflow-y: auto;
+	max-height: 300px;
+}
+
 div.search-results {
 	margin-left: 200px;
 }
@@ -85,6 +90,10 @@ div.search-results {
 
 .search-results th {
 	background-color: #f4f4f4;
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	box-shadow: 0 2px 2px -1px rgba(0,0,0,0.4);
 }
 
 .button-group {

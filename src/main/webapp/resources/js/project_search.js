@@ -1,4 +1,5 @@
 var selectPrjSeq = "";
+
 $(document).ready(function() {
     // 모달 창 띄우기
     $(document).on('click', '.manage-people', function() {
@@ -34,6 +35,11 @@ $(document).ready(function() {
     // 검색 버튼 클릭 이벤트
     $(document).on('click', '.project-search-button', function(){
 		searchProject();
+	});
+	
+	// 삭제 버튼 클릭 이벤트
+    $(document).on('click', '.delete-project-button', function(){
+		deleteProject();
 	});
     
     // 시작 일자 from 박스 변경 시 유효성 검사
@@ -113,6 +119,7 @@ $(document).ready(function() {
     });
 });
 
+
 // 프로젝트 검색
 function searchProject() {
     var searchCriteria = {
@@ -123,6 +130,8 @@ function searchProject() {
         endFromDate: $('#completion-start-date').val(),
         endToDate: $('#completion-end-date').val()
     };
+    
+    console.log('')
 
     $.ajax({
         url: 'search_project_pro',
@@ -131,7 +140,8 @@ function searchProject() {
         dataType: 'json',
         data: JSON.stringify(searchCriteria),
         success: function(response) {
-            updateProject(response);
+			projectDataManager.update(response);
+            updateProject(projectDataManager.get());
             $(".delete-project-button").show();
             $(".add-project-button").show();
         },
@@ -160,3 +170,65 @@ function updateProject(response) {
         tbody.append(row); // 새로운 행을 테이블에 추가
     });
 }
+
+function deleteProject() {
+    // 체크된 체크박스의 사원번호를 수집
+    var checkedProject = $('.search-results tbody input[type="checkbox"]:checked').map(function() {
+        return $(this).closest('tr').find('td:nth-child(2)').text();
+    }).get();
+    
+    console.log(checkedProject);
+
+    if (checkedProject.length === 0) {
+        alert("삭제할 프로젝트를 선택해주세요.");
+        return;
+    }
+
+    // 확인 대화상자를 통해 삭제 의사 결정
+    if (!confirm("선택한 프로젝트를 삭제하시겠습니까?")) {
+        return;
+    }
+    
+    var queryString = checkedProject.map(function(prjSeq) {
+        return "prjSeqList=" + prjSeq;
+    }).join('&');
+
+    // AJAX 요청을 통해 서버에 삭제 처리 요청
+	$.ajax({
+	    url: "project_delete_pro?" + queryString,
+	    type: "DELETE",
+	    dataType: "json",
+	    success: function(response) {
+	        if(response.success) {
+	            alert(response.message);
+	            searchProject();
+	        } else {
+	            alert(response.message);
+	        }
+	    },
+	    error: function(xhr, status, error) {
+	        alert("오류 발생: " + error);
+	    }
+	});
+}
+
+var projectDataManager = (function() {
+    // 프라이빗 변수로 응답 데이터 저장
+    let _response = [];
+
+    // 응답 데이터 업데이트 메서드
+    function updateResponse(newResponse) {
+        _response = newResponse;
+    }
+
+    // 응답 데이터 가져오는 메서드
+    function getResponse() {
+        return _response;
+    }
+
+    // 공개 메서드를 반환하는 객체
+    return {
+        update: updateResponse,
+        get: getResponse
+    };
+})();

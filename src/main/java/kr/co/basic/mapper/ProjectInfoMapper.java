@@ -2,12 +2,15 @@ package kr.co.basic.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 
 import kr.co.basic.bean.ProjectInfo;
+import kr.co.basic.bean.ProjectSkill;
 import kr.co.basic.bean.UserInfo;
 import kr.co.basic.bean.UserProjectInfo;
 
@@ -44,6 +47,10 @@ public interface ProjectInfoMapper {
 			+ "inner join code_detail cd on ips.dtlcode = cd.dtlCode and cd.dCode = 'D060' "
 			+ "where ips.prjSeq = #{prjSeq}")
 	List<String> getPrjSkill(ProjectInfo projectInfo);
+	
+	// 선택 프로젝트 삭제
+	@Delete("CALL Delete_Project(#{prjSeq})")
+	void deleteProject(String prjSeq);
 	
 	// ============================================================PrjDetail================================================================================
 	// 해당하는 프로젝트 정보 조회
@@ -98,9 +105,11 @@ public interface ProjectInfoMapper {
 			+ "    FROM INFO_USER_PROJECT up "
 			+ "    WHERE up.userSeq = u.userSeq AND up.prjSeq = #{prjSeq} "
 			+ ") "
-			+ "AND (#{userNm, jdbcType=VARCHAR} IS NULL OR u.userNm LIKE '%' || #{userNm} || '%') "
-			+ "AND (#{skillRankCd, jdbcType=VARCHAR} IS NULL OR u.skillRankCd = #{skillRankCd}) "
-			+ "ORDER BY u.userSeq")
+			+ "AND (#{userNm, jdbcType=VARCHAR} IS NULL OR u.userNm LIKE '%' || #{userNm, jdbcType=VARCHAR} || '%') "
+			+ "AND (#{skillRankCd, jdbcType=VARCHAR} IS NULL OR u.skillRankCd = #{skillRankCd, jdbcType=VARCHAR}) "
+			+ "AND u.userStateCd = '2'"
+			+ "ORDER BY SUBSTR(userSeq, 1, 1), "
+			+ "TO_NUMBER(SUBSTR(userSeq, 2)) DESC")
 	List<UserInfo> getConUserList(UserProjectInfo userProjectInfo);
 	
 	// ============================================================Project Register================================================================================
@@ -110,6 +119,31 @@ public interface ProjectInfoMapper {
 			+ "VALUES (#{prjSeq}, #{prjNm}, #{customerCd}, #{prjStartDate}, #{prjEndDate}, #{prjDetail, jdbcType=VARCHAR})")
 	void addProject(ProjectInfo projectInfo);
 	
+	// 프로젝트 요구 스킬 등록
 	@Insert("INSERT INTO INFO_PROJECT_SKILL (prjSeq, dtlCode) VALUES (#{prjSeq}, #{dtlCode})")
 	void addPrjSkill(@Param(value = "prjSeq") String prjSeq, @Param(value = "dtlCode") String dtlCode);
+	
+	// ============================================================Project Edit================================================================================
+	// 해당 프로젝트의 요구 스킬
+	@Select("select ips.dtlCode, cd.dtlCodeNm "
+			+ "from info_project_skill ips "
+			+ "left join code_detail cd on cd.dtlCode = ips.dtlCode and cd.dCode = 'D060' "
+			+ "where prjSeq = #{prjSeq}")
+	List<ProjectSkill> getSelectedPrjSkill(String prjSeq);
+	
+	// 해당 프로젝트의 모든 스킬 삭제
+	@Delete("DELETE FROM info_project_skill WHERE prjSeq = #{prjSeq}")
+	void deletePrjSkill(String prjSeq);
+	
+	// 해당 프로젝트 정보 업데이트
+	@Update("UPDATE info_project "
+			+ "SET "
+			+ "    prjNm = #{prjNm}, "
+			+ "    customerCd = #{customerCd}, "
+			+ "    prjStartDate = #{prjStartDate}, "
+			+ "    prjEndDate = #{prjEndDate}, "
+			+ "    prjDetail = #{prjDetail, jdbcType=VARCHAR} "
+			+ "WHERE prjSeq = #{prjSeq}")
+	void modifyPrjPro(ProjectInfo projectInfo);
+	
 }

@@ -7,7 +7,7 @@ $(document).ready(function() {
 	// 오늘 날짜 값 지정
 	var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
     today = yyyy + '-' + mm + '-' + dd;
     document.getElementById('regiDate').setAttribute("max", today);
@@ -97,6 +97,7 @@ $(document).ready(function() {
         }
 
         var enteredDate = new Date(enteredDateStr);
+        enteredDate.setHours(0,0,0,0);
         var today = new Date();
         today.setHours(0,0,0,0); // 오늘 날짜의 시간을 00:00:00.000으로 설정
 
@@ -104,7 +105,7 @@ $(document).ready(function() {
         if (enteredDate > today) {
             alert('입사일은 오늘 날짜 이후로 설정할 수 없습니다.');
             $(this).val('');
-            $('#regiDateValidationMessage').text('입사일은 오늘 날짜 이전이어야 합니다.').show();
+            $('#regiDateValidationMessage').text('입사일은 오늘 날짜까지만 가능 합니다.').show();
         } else {
             // 유효한 날짜인 경우, 유효성 검사 메시지를 숨김
             $('#regiDateValidationMessage').text('').hide();
@@ -136,18 +137,18 @@ $(document).ready(function() {
 	// 등록 버튼 이벤트
 	$('.submitRegistration').on('click', function(e) {
 		e.preventDefault();
-       
-       // 파일 선택 여부 확인
-	    var fileInput = $('#userImage')[0];
-	    if (!fileInput.files.length) {
-		    alert('파일을 선택해주세요.');
-		    $('#fileValidationMessage').text('파일을 선택해주세요.').show(); // 파일 선택 안내 메시지 출력
-		    return; // 파일이 선택되지 않았으므로 여기서 함수 종료
-		} else {
-		    $('#fileValidationMessage').text('').hide(); // 에러 메시지 숨김
+		if(now == "user_regi" || now == "user_regi_admin"){
+			// 파일 선택 여부 확인
+		    var fileInput = $('#userImage')[0];
+		    if (!fileInput.files.length) {
+			    alert('파일을 선택해주세요.');
+			    $('#fileValidationMessage').text('파일을 선택해주세요.').show(); // 파일 선택 안내 메시지 출력
+			    return; // 파일이 선택되지 않았으므로 여기서 함수 종료
+			} else {
+			    $('#fileValidationMessage').text('').hide(); // 에러 메시지 숨김
+			}
 		}
-    
-       checkValid();
+        checkValid();
     });
     
     // 지역번호 및 개인번호 변경시 이벤트
@@ -201,9 +202,11 @@ function checkValid(){
 	var phoneNumber = "";
 
 	// 아이디 변경시 중복 검사 수행을 부탁하는 alert 
-	if(checkedUserId != userId){
-		alert("아이디 중복 검사를 해주세요.")
-		return false;
+	if(now == "user_regi"){
+		if(checkedUserId != userId){
+			alert("아이디 중복 검사를 해주세요.")
+			return false;
+		}
 	}
 	
 	// 폰 번호가 직접입력과 선택입력에 따른 값 처리
@@ -212,24 +215,47 @@ function checkValid(){
 	} else {
 		phoneNumber = areaNumber + "-" + telNumber;
 	}
-	
-	console.log(phoneNumber);
-	
-	// 주소 합치기
-	var addressCombined = addr + " " + addrDetail;
-	if (addressCombined.trim() === "") {
-	    addressCombined = null;
-	}
 
-    var userInfo = {
+	if(now == "user_edit"){
+		if(addrDetail.length == 0){
+			addrDetail = null;
+		}
+		
+		if(modifyFlag == true){
+			var userInfo = {
             userNm: $('.name').val(),
             userId: $('.userId').val(),
             userPw: $('.password').val(),
             phoneNumber: phoneNumber,
             regiDate: $('.regiDate').val(),
             email: email,
-            address: addressCombined
+            address: addr,
+            addressDetail: addrDetail,
         };
+		} else {
+			var userInfo = {
+            userNm: $('.name').val(),
+            userId: $('.userId').val(),
+            userPw: $('.password').val(),
+            phoneNumber: phoneNumber,
+            regiDate: $('.regiDate').val(),
+            email: email,
+            address: addr,
+            addressDetail: ""
+        };
+		}
+	} else if(now == "user_regi" || now == "user_regi_admin"){
+		var userInfo = {
+            userNm: $('.name').val(),
+            userId: $('.userId').val(),
+            userPw: $('.password').val(),
+            phoneNumber: phoneNumber,
+            regiDate: $('.regiDate').val(),
+            email: email,
+            address: addr,
+            addressDetail: addrDetail
+        };
+	}
     
 	$.ajax({
         url: 'user_valid_pro',
@@ -240,7 +266,11 @@ function checkValid(){
         success: function(response) {
 			if(response.success){
 				$('.validation-message').text('').hide();
-				submitForm();
+				if(now == "user_regi" || now == "user_regi_admin"){
+					submitForm();
+				} else if (now == "user_edit"){
+					updateUserInfo();
+				}
 			} else{
 				alert("오류 발생!")
 			}
@@ -266,6 +296,16 @@ function submitForm() {
 	var telNumber = $('#phone').val();
 	var phoneNumber = "";
 	var email = $("#email").val() + "@" + $("#emailDetail").val();
+	let workState = $('#workState').val();
+	let regiState = $('#regiState').val();
+	
+	if(workState == null){
+		workState = "1";
+	}
+	
+	if(regiState == null){
+		regiState = "1";
+	}
 	
 	if (areaNumber === "write-phone") {
 		phoneNumber = telNumber
@@ -290,6 +330,9 @@ function submitForm() {
         formData.append('skills', $(this).val());
     });
     formData.append('userImage', $('#userImage')[0].files[0]);
+    formData.append('workStateCd', workState);
+    formData.append('userStateCd', regiState);
+    
 	
     $.ajax({
         url: 'user_regi_pro',
@@ -462,12 +505,70 @@ function restrictInput(selector, pattern, minLength, maxLength, errorMessageSele
 function isValidDate(dateString) {
     var parts = dateString.split("-");
     var year = parseInt(parts[0], 10);
-    var month = parseInt(parts[1], 10) - 1; // JavaScript의 월은 0부터 시작합니다.
+    var month = parseInt(parts[1], 10) - 1;
     var day = parseInt(parts[2], 10);
     var date = new Date(year, month, day);
     if (date.getFullYear() === year && date.getMonth() === month && date.getDate() === day) {
-        return { valid: true, year: year }; // 유효한 날짜입니다.
+        return { valid: true, year: year };
     } else {
-        return { valid: false }; // 유효하지 않은 날짜입니다.
+        return { valid: false };
     }
+}
+
+function updateUserInfo() {
+	var areaNumber = document.getElementById("phonePrefix").value;
+	var telNumber = $('#phone').val();
+	var phoneNumber = "";
+	var email = $("#email").val() + "@" + $("#emailDetail").val();
+	
+	if (areaNumber === "write-phone") {
+		phoneNumber = telNumber
+	} else {
+		phoneNumber = areaNumber + "-" + telNumber;
+	}
+	
+	if($('#userImage')[0].files[0] != null){
+		var imageValue = $('#userImage')[0].files[0];
+	} else {
+		var imageValue = null;
+	}
+	
+    // FormData 객체를 사용하여 폼 데이터 수집
+    var userInfo = {
+		userSeq: $('#userSeq').val(),
+        userNm: $('.name').val(),
+        userId: $('.userId').val(),
+        userPw: $('.password').val(),
+        genderCd: $('.gender').val(),
+        phoneNumber: phoneNumber,
+        regiDate: $('.regiDate').val(),
+        posCd: $('.position').val(),
+        skillRankCd: $('#skillLevel').val(),
+        email: email,
+        address: $('#address').val(),
+        addressDetail: $('#address-detail').val(),
+        skillList: $('input[name="skills"]:checked').map(function() { return $(this).val(); }).get(),
+        userImage: imageValue,
+        workStateCd: $('#workState').val()
+    };
+	
+    $.ajax({
+        url: 'user_update_pro',
+        type: 'PUT',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(userInfo),
+        success: function(response) {
+            if(response.success) {
+                alert('업데이트 성공!');
+                location.href = "user_detail?userSeq=" + userInfo.userSeq;
+            } else {
+                alert('정보 수정에 문제가 발생했습니다. 관리자에게 문의해주세요.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert('필수 입력 사항을 입력하지 않았습니다. 다시 한번 확인해 주세요.');
+        }
+    });
 }

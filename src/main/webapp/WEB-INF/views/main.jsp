@@ -19,11 +19,11 @@
 	        <div class="login-form">
 	            <div>
 	                <label for="user_id">아이디 :</label>
-	                <input id="user_id" class="input-field" type="text" name="id" placeholder="아이디를 입력해주세요">
+	                <input id="user_id" class="input-field" type="text" name="id" maxlength="20" placeholder="아이디를 입력해주세요" required="required">
 	            </div>
 	            <div>
 	                <label for="user_pw">비밀번호 :</label>
-	                <input id="user_pw" class="input-field" type="password" name="password" placeholder="비밀번호를 입력해주세요">
+	                <input id="user_pw" class="input-field" type="password" name="password" maxlength="20" placeholder="비밀번호를 입력해주세요" required="required">
 	            </div>
 	            <div>
 	                <img src="${root}image/Basic_Logo.png" alt="Logo">
@@ -38,7 +38,7 @@
 <script>
 // 회원등록 페이지로 전환
 function regPage(){
-	location.href="${root}user/user_reg";
+	location.href="${root}user/user_regi";
 }
 
 // 로그인 성공 후 메인 페이지로 전환

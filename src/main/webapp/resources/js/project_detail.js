@@ -6,18 +6,45 @@ $(document).ready(function(){
 	$('.update-project-user').on('click', function(){
 		updatePrjUser();
 	});
+	
+	// 날짜 변경 유효성 검사
+	$(document).on('blur', '.date-valid', function() {
+	    var $thisRow = $(this).closest('tr');
+	    var startDate = new Date($(this).val());
+	    var endDate = new Date($thisRow.find('.end-date').val());
+	    var prjStartDate = new Date($('#startDate').val());
+	    var prjEndDate = new Date($('#endDate').val());
+	    var today = new Date();
+	
+	    startDate.setHours(0, 0, 0, 0);
+	    endDate.setHours(0, 0, 0, 0);
+	    prjStartDate.setHours(0, 0, 0, 0);
+	    prjEndDate.setHours(0, 0, 0, 0);
+	    today.setHours(0, 0, 0, 0);
+	
+	    if (startDate > prjEndDate) {
+	        alert('투입일은 프로젝트 종료일 보다 늦을 수 없습니다. (프로젝트 종료일 : ' + formatDate(prjEndDate) + ')');
+	        $(this).val(formatDate(endDate));
+	    } else if (startDate < prjStartDate) {
+	        alert('투입일은 프로젝트 시작일 보다 빠를 수 없습니다. (프로젝트 시작일 : ' + formatDate(prjStartDate) + ')');
+	        $(this).val(formatDate(prjStartDate));
+	    } else if (startDate > endDate) {
+	        alert('투입일은 철수일보다 늦을 수 없습니다.');
+	        $(this).val($(this).closest('tr').find('.end-date').val());
+	    } else if (startDate > today){
+	        alert('투입일은 오늘 날짜보다 늦을 수 없습니다.')
+	    }
+	});
 })
 
 function deletePrjToUser(){
 	var selectedUsers = [];
 	var selectPrjSeq = $('#projectSeq').val();
 	
-	/*
 	// 확인 대화상자를 통해 삭제 의사 결정
     if (!confirm("선택한 사원을 삭제하시겠습니까?")) {
         return;
     }
-	*/
 	
 	$('.search-results tbody input[type="checkbox"]:checked').each(function() {
 		var row = $(this).closest("tr");
@@ -71,6 +98,7 @@ function updatePrjUser(){
 		};		
 		userProjectInfo.push(projectData);
 	});
+	
 
 	if(userProjectInfo.length > 0){
 		$.ajax({

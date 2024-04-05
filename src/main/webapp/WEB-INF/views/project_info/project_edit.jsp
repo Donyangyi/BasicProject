@@ -10,6 +10,9 @@
     <title>OJT</title>
     <link href="${root}css/project_register.css" rel="stylesheet" />
     <c:import url="/WEB-INF/views/include/version.jsp" /> <!-- 버전 관리 -->
+    <script src="${root}js/project_edit.js"></script>
+    <script src="${root}js/popup_user.js"></script>
+    <script src="${root}js/date_validation.js"></script> <!-- 날짜 유효성 검사 -->
 </head>
 <body>
 	<c:import url="/WEB-INF/views/include/top_logo.jsp" /> <!-- 상단 로고 (헤더 영역) -->
@@ -18,36 +21,52 @@
         <div class="form-container">
             <div class="left-section">
                 <label class="important">*는 필수 입력입니다.</label>
+                <input type="hidden" id="prjSeq" value="${prjSeq}">
                 <div class="form-row">
                     <label for="projectName">프로젝트명*</label>
-                    <input type="text" id="projectName">
+                    <input type="text" id="project-name" value="${prjBean.prjNm}" maxlength="30" required>
                 </div>
                 <div class="form-row">
                     <label for="clientName">고객사명*</label>
-                    <input type="text" id="clientName">
+                    <select id="customer-select" required>
+                    <option value="">선택</option>
+                    	<c:forEach items="${customerBean}" var="customer">
+                    		<c:if test="${customer.dtlCode == prjBean.customerCd}">
+                    			<option value="${customer.dtlCode}" selected>${customer.dtlCodeNm}</option>
+                    		</c:if>
+                    		<c:if test="${customer.dtlCode != prjBean.customerCd}">
+                    			<option value="${customer.dtlCode}">${customer.dtlCodeNm}</option>
+                    		</c:if>
+                    	</c:forEach>
+                    </select>
                 </div>
                 <div class="form-row">
                     <label for="projectStart">프로젝트 기간*</label>
-                    <input type="date" id="projectStart"> ~ <input type="date" id="projectEnd">
+                    <input type="date" class="date-valid" id="projectStart" value="${prjBean.prjStartDate}" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}" required>
+                    ~ 
+                    <input type="date" class="date-valid" id="projectEnd" value="${prjBean.prjEndDate}" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}" required>
                 </div>
                 <fieldset>
 					<legend>보유 기술</legend>
-					<label><input type="checkbox" name="skills" value="Java">Java</label>
-					<label><input type="checkbox" name="skills" value="JavaScript">JavaScript</label>
-					<label><input type="checkbox" name="skills" value="Spring">Spring</label>
-					<label><input type="checkbox" name="skills" value="HTML/CSS">HTML/CSS</label>
-					<label><input type="checkbox" name="skills" value="C#">C#</label>
-					<label><input type="checkbox" name="skills" value="jQuery">jQuery</label>
-					<label><input type="checkbox" name="skills" value="SQL">SQL</label>
-					<label><input type="checkbox" name="skills" value="React">React</label>
+					<c:forEach items="${skillBean}" var="skill">
+						<c:set var="skillChecked" value="false" />
+						<c:forEach items="${prjSkillBean}" var="prjSkill">
+							<c:if test="${skill.dtlCode == prjSkill.dtlCode }">
+								<c:set var="skillChecked" value="true" />
+							</c:if>
+						</c:forEach>
+						<label>
+							<input type="checkbox" name="skills" value="${skill.dtlCode}" ${skillChecked ? 'checked' : ''}>${skill.dtlCodeNm}
+						</label>
+					</c:forEach>
 				</fieldset>
             </div>
             <div class="right-section">
 			    <label for="details">상세 설명</label>
-			    <textarea id="details"></textarea>
+			    <textarea id="details">${prjBean.prjDetail}</textarea>
 			    <div class="buttons-container">
-			        <button type="submit" class="btn">등록</button>
-			        <button type="button" class="btn cancel">취소</button>
+			        <button class="btn" id="modify-button">수정</button>
+			        <button class="btn cancel" id="cancel-button">취소</button>
 			    </div>
 			</div>
         </div>

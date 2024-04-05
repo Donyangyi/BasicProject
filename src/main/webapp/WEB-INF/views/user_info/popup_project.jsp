@@ -21,14 +21,6 @@
 
     <div class="project-management">
     	<input type="hidden" id="userSeq" value="${userSeq}" style="display: none;">
-        <!-- <div class="list-size-selector" style="text-align:right;">
-            <label for="listSize">리스트 수:</label>
-            <select id="listSize" name="listSize">
-                <option value="5">5</option>
-                <option value="10" selected>10</option>
-                <option value="15">15</option>
-            </select>
-        </div> -->
 	<div class="search-results-popup">
         <table class="project-table">
             <thead class="fixed-header">

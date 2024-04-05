@@ -13,6 +13,7 @@
     <script src="${root}js/project_search.js"></script> 
     <script src="${root}js/popup_project.js"></script> <!-- 프로젝트명, 고객사명 유효성 검사 기능 -->
     <script src="${root}js/popup_user.js"></script>
+    <script src="${root}js/date_validation.js"></script> <!-- 날짜 유효성 검사 -->
     <script type="text/javascript">
     	var now = 'prjSearch';
     </script>
@@ -31,13 +32,13 @@
 	        </div>
 	        <div class="criteria-row">
 	            <label for="start-date">시작 일</label>
-	            <input type="date" id="launch-start-date" name="start-date" onkeydown="return false;">
+	            <input type="date" class="date-valid" id="launch-start-date" name="start-date" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}">
 	            ~
-	            <input type="date" class="end-group" id="launch-end-date" name="end-date" onkeydown="return false;">
+	            <input type="date" class="end-group date-valid" id="launch-end-date" name="end-date" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}">
 	            <label for="completion-start-date">종료 일</label>
-	            <input type="date" id="completion-start-date" name="completion-start-date" onkeydown="return false;">
+	            <input type="date" class="date-valid" id="completion-start-date" name="completion-start-date" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}">
 	            ~
-	            <input type="date" class="end-group" id="completion-end-date" name="completion-end-date" onkeydown="return false;">
+	            <input type="date" class="end-group date-valid" id="completion-end-date" name="completion-end-date" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}">
 	            <button class="project-search-button">조회</button>
 	        </div>
 	    </div>
@@ -56,6 +57,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                <!-- 동적 할당 부분 -->
                 </tbody>
             </table>
         </div>

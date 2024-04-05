@@ -62,6 +62,11 @@
     margin-top: 10px;
 }
 
+.table-scroll {
+	overflow-y: auto;
+	max-height: 300px;
+}
+
 .search-results th, .search-results td {
 
     border: 1px solid #ddd;

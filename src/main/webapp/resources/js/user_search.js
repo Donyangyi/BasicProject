@@ -5,18 +5,17 @@ var selectedUserSeq = null;
 $(document).ready(function() {	
 	var isComposing = false; // 한글 입력 중인지를 나타내는 플래그
 	
-	$("#employee_name").on('compositionstart', function() {
-        isComposing = true; // 한글 입력 시작
-    });
-
-    $("#employee_name").on('compositionend', function() {
-        isComposing = false; // 한글 입력 종료
+    $(document).on('compositionstart', '#employee_name', function(){
+		isComposing = true; // 한글 입력 시작
+	})
+	
+	$(document).on('compositionend', '#employee_name', function(){
+		isComposing = false; // 한글 입력 종료
         $(this).trigger('input');
-    });
-
-	//유저 검색 시 유효성 검사
-    $("#employee_name").on('input', function() {
-        if (isComposing) {
+	})
+	
+	$(document).on('input', '#employee_name', function(){
+		if (isComposing) {
             return;
         }
 
@@ -26,7 +25,7 @@ $(document).ready(function() {
             alert("특수 문자와 숫자는 입력할 수 없습니다.");
             $(this).val(value.replace(specialCharPattern, ''));
         }
-    });
+	})
 	
     // 프로젝트 관리 모달 열기
     $(document).on('click', '.open-popup-project', function() {
@@ -63,6 +62,11 @@ $(document).ready(function() {
 	    if (now === 'userDetail') {
 	        location.reload();
 	    }
+	    
+	    // project_detail.jsp 페이지에서 모달을 닫을 때
+	    if (now === 'prjDetail') {
+	        location.reload();
+	    }
     });
 
     // 모달 외부 클릭으로 닫기 이벤트
@@ -76,6 +80,11 @@ $(document).ready(function() {
 		    
 		    // user_detail.jsp 페이지에서 모달을 닫을 때
 		    if (now === 'userDetail') {
+		        location.reload();
+		    }
+		    
+		    // project_detail.jsp 페이지에서 모달을 닫을 때
+		    if (now === 'prjDetail') {
 		        location.reload();
 		    }
         }
@@ -132,7 +141,7 @@ $(document).ready(function() {
     });
     
 	// 날짜 변경 유효성 검사
-	$(document).on('change', '.user-start-date', function() {
+	$(document).on('blur', '.user-start-date', function() {
 	    var $thisRow = $(this).closest('tr');
 	    var startDate = new Date($(this).val());
 	    var endDate = new Date($thisRow.find('.user-end-date').val());
@@ -155,13 +164,11 @@ $(document).ready(function() {
 	    } else if (startDate > endDate) {
 	        alert('투입일은 철수일보다 늦을 수 없습니다.');
 	        $(this).val($(this).closest('tr').find('.user-end-date').val());
-	    } else if (startDate > today){
-			alert('투입일은 오늘 날짜보다 늦을 수 없습니다.')
-		}
+	    }
 	});
 	
 	// 날짜 변경 유효성 검사
-	$(document).on('change', '.user-end-date', function() {
+	$(document).on('blur', '.user-end-date', function() {
     	var $thisRow = $(this).closest('tr');
 	    var startDate = new Date($thisRow.find('.user-start-date').val());
 	    var endDate = new Date($(this).val());
@@ -201,7 +208,8 @@ $(document).ready(function() {
     });
     
     //입력 필드 또는 선택 필드의 초기 값 저장
-    $('.search-results tbody tr').each(function() {
+    $('.search-results tbody tr, .search-results-popup tbody tr').each(function() {
+	console.log("실행중1");
         $(this).find('input[type="date"], select').each(function() {
             $(this).data('initial', $(this).val());
         });
@@ -209,6 +217,7 @@ $(document).ready(function() {
     
     // 입력 필드 또는 선택 필드의 값이 변경되었을 때 로직
     $('.search-results').on('change', 'input[type="date"], select', function() {
+	console.log("실행중2");
         var initialValue = $(this).data('initial');
         var currentValue = $(this).val();
         var $checkbox = $(this).closest('tr').find('input[type="checkbox"]');
@@ -227,6 +236,26 @@ $(document).ready(function() {
             $checkbox.prop('checked', isAnyChanged);
         }
     });
+    
+    $(document).on('change', '.search-results-popup input[type="date"], .search-results-popup select', function() {
+    var initialValue = $(this).data('initial');
+    var currentValue = $(this).val();
+    var $checkbox = $(this).closest('tr').find('input[type="checkbox"]');
+
+    // 값이 초기 값과 다르면 체크박스를 체크, 같으면 체크 해제
+    if (initialValue !== currentValue) {
+        $checkbox.prop('checked', true);
+    } else {
+        // 모든 필드를 검사하여 하나라도 변경된 값이 있으면 체크박스를 체크된 상태로 유지
+        var isAnyChanged = false;
+        $(this).closest('tr').find('input[type="date"], select').each(function() {
+            if ($(this).val() !== $(this).data('initial')) {
+                isAnyChanged = true;
+            }
+        });
+        $checkbox.prop('checked', isAnyChanged);
+    }
+});
 
     // 체크박스 클릭 시 이벤트 버블링 방지
     $(document).on('click', '.search-results tbody tr input[type="checkbox"]', function(e) {

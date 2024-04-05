@@ -46,8 +46,9 @@ public class UserInfoService {
 		int start = (page - 1) * listSize;
 		RowBounds rowBounds = new RowBounds(start, listSize);
 
-		String userNmWithWildcard = "%" + userInfo.getUserNm() + "%";
+		String userNmWithWildcard = "%" + userInfo.getUserNm().trim() + "%";
 		userInfo.setUserNm(userNmWithWildcard);
+		userInfo.setUserStateCd("2");
 		ArrayList<UserInfo> allUserInfoList = userInfoDao.userAllSearch(userInfo, rowBounds);
 		// allUserInfoList.removeIf(user -> user.getUserNm().equals("관리자"));
 

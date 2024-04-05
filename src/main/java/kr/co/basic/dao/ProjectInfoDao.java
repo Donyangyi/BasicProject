@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.basic.bean.ProjectInfo;
+import kr.co.basic.bean.ProjectSkill;
 import kr.co.basic.bean.UserInfo;
 import kr.co.basic.bean.UserProjectInfo;
 import kr.co.basic.mapper.ProjectInfoMapper;
@@ -44,6 +45,11 @@ public class ProjectInfoDao {
 	// 해당 프로젝트에 참여하고 있지 않은 인원 조회
 	public List<UserInfo> getConUserList(UserProjectInfo userProjectInfo){
 		return projectInfoMapper.getConUserList(userProjectInfo);
+	}
+	
+	// 해당 프로젝트의 요구 스킬
+	public List<ProjectSkill> getSelectedPrjSkill(String prjSeq){
+		return projectInfoMapper.getSelectedPrjSkill(prjSeq);
 	}
 	
 }

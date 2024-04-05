@@ -1,6 +1,7 @@
 package kr.co.basic.bean;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -36,6 +37,9 @@ public class UserInfo {
 	@Pattern(regexp = "^[^!@#$%^&*_+=\\[\\]{};'\"\\|,.<>?`~]*$")
 	@NotNull
 	private String address;
+	@Pattern(regexp = "^[^!@#$%^&*_+=\\[\\]{};'\"\\|,.<>?`~]*$")
+	@NotNull
+	private String addressDetail;
 	private String workStateCd;
 	private String userStateCd;
 	private Date userRegiDate;
@@ -49,4 +53,7 @@ public class UserInfo {
 	private String userState;
 	private String startDate;
 	private String endDate;
+	private String dtlCode;
+	private List<String> skillList;
+	private boolean admin;
 }

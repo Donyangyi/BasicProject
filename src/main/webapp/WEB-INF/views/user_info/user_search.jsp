@@ -11,6 +11,7 @@
     <link href="${root}css/modal.css" rel="stylesheet" /> <!-- 모달창 -->
     <c:import url="/WEB-INF/views/include/version.jsp" /> <!-- 버전 관리 -->
     <script src="${root}js/user_search.js"></script>
+    <script src="${root}js/date_validation.js"></script> <!-- 날짜 유효성 검사 -->
     <script>
     	var now = 'userSearch';
 	</script>
@@ -24,7 +25,7 @@
 	        <div class="criteria-title">검색 조건</div>
 	        <div class="criteria-content">
 		        <label for="employee_name">사원명</label>
-		        <input type="text" id="employee_name" placeholder="사원명">
+		        <input type="text" id="employee_name" maxlength="17" placeholder="사원명">
 		        <label for="position">직급</label>
 		        <select id="position" name="position">
 		        <option value="">선택</option>
@@ -42,9 +43,9 @@
 	        </div>
 	        <div class="recent-dates">
 		        <label class="start-label">입사일</label>
-		        <input type="date" id="start-date" name="start-date" onkeydown="return false;">
+		        <input type="date" class="date-valid" id="start-date" name="start-date" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}">
 		        ~
-		        <input type="date" id="end-date" name="end-date" onkeydown="return false;">
+		        <input type="date" class="date-valid" id="end-date" name="end-date" max="9999-12-31" pattern="\d{4}-\d{2}-\d{2}">
 		            <button class="date-button">1주일</button>
 		            <button class="date-button">1개월</button>
 		            <button class="date-button">3개월</button>

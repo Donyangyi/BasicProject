@@ -9,6 +9,23 @@ $(document).ready(function() {
 		deleteProject();
 	})
 	
+	/*
+	// 날짜 유효성 검사 (이벤트 위임 사용)
+    $(document).on('blur', '.date-valid', function() {
+        console.log("유효성 검사 시작");
+        var enteredDateStr = $(this).val();
+        var dateCheckResult = isValidDate(enteredDateStr);
+
+        // 유효성 검사 실패 시 메시지 출력
+        if (!dateCheckResult.valid) {
+            alert('유효하지 않은 날짜입니다. 다시 입력해주세요.');
+            $(this).val("");
+            $('#regiDateValidationMessage').text('유효하지 않은 날짜입니다.').show();
+            return;
+        }
+        // 추가된 로직...
+    });
+    */
 });
 
 //유저 프로젝트 정보 업데이트 (투입일, 철수일, 역할)
@@ -18,14 +35,23 @@ function updateUserPrj(){
 	// 체크된 모든 행 순회
 	$(".search-results tbody input[type='checkbox']:checked").each(function(){
 		var row = $(this).closest("tr");
+		let tempDate = row.find(".user-end-date").val();
+		var endDate = "";
+		if(tempDate == null){
+			endDate = null;
+		} else {
+			endDate = tempDate;
+		}
 		var projectData = {
 			userSeq: $("#employee_number").val(),
 			prjSeq: row.find("td:eq(1)").text(),
-			upStartDate: row.find("#start-date").val(),
-			upEndDate: row.find("#end-date").val(),
+			upStartDate: row.find(".user-start-date").val(),
+			upEndDate: endDate,
 			roleCd: row.find("select").val()
 		};		
 		userProjectInfo.push(projectData);
+		console.log("Row Data:", projectData);
+        console.log("upStartDate:", projectData.upStartDate, "upEndDate:", projectData.upEndDate, "roleCd:", projectData.roleCd);
 	});
 
 	if(userProjectInfo.length > 0){

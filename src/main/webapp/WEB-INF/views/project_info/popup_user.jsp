@@ -13,7 +13,7 @@
     
     <div class="search-area">
     	<label for="project_name">사원 명</label>
-        <input type="text" id="user_name">
+        <input type="text" id="employee_name" min="2" maxlength="15">
         <label for="skillLevel">기술등급</label>
 		<select id="skillLevel">
 			<option value="">선택...</option>
@@ -26,14 +26,6 @@
     </div>
 
     <div class="project-management">
-        <!-- <div class="list-size-selector" style="text-align:right;">
-            <label for="listSize">리스트 수:</label>
-            <select id="listSize" name="listSize">
-                <option value="5">5</option>
-                <option value="10" selected>10</option>
-                <option value="15">15</option>
-            </select>
-        </div> -->
 		<div class="search-results-popup">
 	        <table class="project-table">
 	            <thead class="fixed-header">

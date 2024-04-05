@@ -39,12 +39,12 @@ public class UserDao {
 		return userMapper.searchAllPhoneNumber();
 	}
 	
-	// 모든 전화번호 정보 조회
+	// 모든 도메인 정보 조회
 	public List<UserSkill> searchAllEmail() {
 		return userMapper.searchAllEmail();
 	}
 	
-	// 모든 재직상태 정보 조회
+	// 모든 재직상태 조회
 	public List<UserSkill> searchAllWorkState() {
 		return userMapper.searchAllWorkState();
 	}
@@ -59,8 +59,23 @@ public class UserDao {
 		userMapper.regiUserPro(userInfo);
 	}
 	
+	// 모든 이메일 정보 조회
+	public void regiUserAdminPro(UserInfo userInfo) {
+		userMapper.regiUserAdminPro(userInfo);
+	}
+	
 	// 모든 고객사 정보 조회
 	public List<UserSkill> searchAllCustomer() {
 		return userMapper.searchAllCustomer();
+	}
+	
+	// 해당 회원의 보유 스킬
+	public List<UserSkill> getUserSkills(String userSeq){
+		return userMapper.getUserSkills(userSeq);
+	}
+	
+	// 모든 등록상태 조회
+	public List<UserSkill> searchAllRegiState() {
+		return userMapper.searchAllRegiState();
 	}
 }

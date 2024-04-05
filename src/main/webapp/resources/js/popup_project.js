@@ -61,21 +61,19 @@ $(document).ready(function(){
             $checkbox.prop('checked', isAnyChanged);
         }
     });
-    
+    //==============================================================================================================================
     // 날짜 변경 유효성 검사
-    $(document).on('change', '#modal-body .start-date', function() {
+    $(document).on('blur', '#modal-body .start-date', function() {
 	    var $thisRow = $(this).closest('tr');
-	    var startDate = new Date($(this).val());
+	    var startDate = new Date($thisRow.find('.start-date').val());
 	    var endDate = new Date($thisRow.find('.end-date').val());
-	    var prjStartDate = new Date($thisRow.find('.prj-start-date').text());
-	    var prjEndDate = new Date($thisRow.find('.prj-end-date').text());
-	    var today = new Date();
+	    var prjStartDate = new Date($thisRow.data('prj-start-date'));
+	    var prjEndDate = new Date($thisRow.data('prj-end-date'));
 	
 	    startDate.setHours(0, 0, 0, 0);
 	    endDate.setHours(0, 0, 0, 0);
 	    prjStartDate.setHours(0, 0, 0, 0);
 	    prjEndDate.setHours(0, 0, 0, 0);
-	    today.setHours(0, 0, 0, 0);
 	
 	    if (startDate > prjEndDate) {
 	        alert('투입일은 프로젝트 종료일 보다 늦을 수 없습니다.');
@@ -86,17 +84,15 @@ $(document).ready(function(){
 	    } else if (startDate > endDate) {
 	        alert('투입일은 철수일보다 늦을 수 없습니다.');
 	        $(this).val($(this).closest('tr').find('.end-date').val());
-	    } else if (startDate > today){
-			alert('투입일은 오늘 날짜보다 늦을 수 없습니다.')
-		}
+	    }
 	});
 	
 	$(document).on('change', '#modal-body .end-date', function() {
 	    var $thisRow = $(this).closest('tr');
 	    var startDate = new Date($thisRow.find('.start-date').val());
-	    var endDate = new Date($(this).val());
-	    var prjStartDate = new Date($thisRow.find('.prj-start-date').text());
-	    var prjEndDate = new Date($thisRow.find('.prj-end-date').text());
+	    var endDate = new Date($thisRow.find('.end-date').val());
+	    var prjStartDate = new Date($thisRow.data('prj-start-date'));
+	    var prjEndDate = new Date($thisRow.data('prj-end-date'));
 	
 	    startDate.setHours(0, 0, 0, 0);
 	    endDate.setHours(0, 0, 0, 0);
@@ -160,18 +156,18 @@ function updateProjectTable(projects, roleList) {
                 return `<option value="${role.dtlCode}" ${project.roleCd === role.dtlCode ? 'selected' : ''}>${role.dtlCodeNm}</option>`;
             }).join('');
 
-            htmlContent += `<tr>
-                <td><input type="checkbox"></td>
-                <td>${project.prjSeq}</td>
-                <td>${project.prjNm}</td>
-                <td>${project.customerNm}</td>
-                <td>${project.skill}</td>
-                <td class="prj-start-date">${project.prjStartDate}</td>
-                <td class="prj-end-date">${project.prjEndDate}</td>
-                <td><input type="date" class="start-date" value="" onkeydown="return false;"></td>
-                <td><input type="date" class="end-date" value="" onkeydown="return false;"></td>
-                <td><select class="role-select">${roleOptions}</select></td>
-            </tr>`;
+            htmlContent += `<tr data-prj-start-date="${project.prjStartDate}" data-prj-end-date="${project.prjEndDate}">
+			    <td><input type="checkbox"></td>
+			    <td>${project.prjSeq}</td>
+			    <td>${project.prjNm}</td>
+			    <td>${project.customerNm}</td>
+			    <td>${project.skill}</td>
+			    <td class="prj-start-date">${project.prjStartDate}</td>
+			    <td class="prj-end-date">${project.prjEndDate}</td>
+			    <td><input type="date" class="start-date date-valid" value="" max="9999-12-31"></td>
+			    <td><input type="date" class="end-date date-valid" value="" max="9999-12-31"></td>
+			    <td><select class="role-select">${roleOptions}</select></td>
+			</tr>`;
         });
     }
     $(".search-results-popup tbody").html(htmlContent);

@@ -12,7 +12,7 @@
     <c:import url="/WEB-INF/views/include/version.jsp" />
     <script src="${root}js/user_regi.js"></script>
     <script type="text/javascript">
-    	const now = "user_regi";
+    	const now = "user_regi_admin";
     </script>
 </head>
 <body>
@@ -112,6 +112,24 @@
 								</c:forEach>
 							</select>
 							<div class="validation-message" id="userSkillValidationMessage"></div>
+						</div>
+						<div class="form-group">
+							<label for="workState">재직상태</label>
+							<select id="workState">
+								<c:forEach items="${workStateBean}" var="workState">
+									<option value="${workState.dtlCode}">${workState.dtlCodeNm}</option>
+								</c:forEach>
+							</select>
+							<div class="validation-message" id="workStateCdValidationMessage"></div>
+						</div>
+						<div class="form-group">
+							<label for="regiState">등록상태</label>
+							<select id="regiState">
+								<c:forEach items="${regiStateBean}" var="regiState">
+									<option value="${regiState.dtlCode}">${regiState.dtlCodeNm}</option>
+								</c:forEach>
+							</select>
+							<div class="validation-message" id="userStateCdValidationMessage"></div>
 						</div>
 						<div class="form-group">
 							<label for="email">이메일<span class="required-star">*</span></label>

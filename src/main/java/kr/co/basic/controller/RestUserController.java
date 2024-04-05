@@ -17,6 +17,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -80,9 +81,8 @@ public class RestUserController {
 							(existingValue, newValue) -> existingValue));
 			return ResponseEntity.badRequest().body(errors);
 		}
-		return ResponseEntity.ok(Map.of("success", true, "message", "회원 등록 성공"));
+		return ResponseEntity.ok(Map.of("success", true, "message", "유효성 검사 완료"));
 		//ResponseEntity.ok().body("유효성 검사 성공")
-		
 	}
 
 	// 유저 삭제
@@ -108,10 +108,13 @@ public class RestUserController {
 			@RequestParam(value = "addressDetail", required = true) String addressDetail,
 			@RequestParam(value = "skills", required = false) List<String> skills,
 			@RequestParam(value = "userImage", required = true) MultipartFile userImage,
+			@RequestParam(value = "workStateCd", required = false) String workStateCd,
+			@RequestParam(value = "userStateCd", required = false) String userStateCd,
 			RedirectAttributes redirectAttributes) {
 		try {
 			boolean isRegistered = userService.regiUserPro(name, userId, userPw, gender, phone, regiDate, posCd,
-					skillRankCd, email, address, addressDetail, userImage, skills);
+					skillRankCd, email, address, addressDetail, userImage, skills, false, workStateCd, userStateCd);
+			
 			if (isRegistered) {
 				return ResponseEntity.ok(Map.of("success", true, "message", "사용자 등록 성공!"));
 			} else {
@@ -125,9 +128,55 @@ public class RestUserController {
 		}
 	}
 	
+	// 유저 등록
+		@PostMapping("/user_info/user_regi_pro")
+		public ResponseEntity<?> regiUserProAdmin(@RequestParam(value = "name", required = true) String name,
+				@RequestParam(value = "userId", required = true) String userId,
+				@RequestParam(value = "userPw", required = true) String userPw,
+				@RequestParam(value = "genderCd", required = true) String gender,
+				@RequestParam(value = "phone", required = true) String phone,
+				@RequestParam(value = "regiDate", required = true) String regiDate,
+				@RequestParam(value = "posCd", required = false) String posCd,
+				@RequestParam(value = "skillRankCd", required = false) String skillRankCd,
+				@RequestParam(value = "email", required = false) String email,
+				@RequestParam(value = "address", required = true) String address,
+				@RequestParam(value = "addressDetail", required = true) String addressDetail,
+				@RequestParam(value = "skills", required = false) List<String> skills,
+				@RequestParam(value = "userImage", required = true) MultipartFile userImage,
+				@RequestParam(value = "workStateCd", required = false) String workStateCd,
+				@RequestParam(value = "userStateCd", required = false) String userStateCd,
+				RedirectAttributes redirectAttributes) {
+			try {
+				boolean isRegistered = userService.regiUserPro(name, userId, userPw, gender, phone, regiDate, posCd,
+						skillRankCd, email, address, addressDetail, userImage, skills, true, workStateCd, userStateCd);
+				
+				if (isRegistered) {
+					return ResponseEntity.ok(Map.of("success", true, "message", "사용자 등록 성공!"));
+				} else {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+							.body(Map.of("success", false, "message", "사용자 등록 실패."));
+				}
+			} catch (Exception e) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+						.body(Map.of("success", false, "message", "등록 중 오류 발생: " + e.getMessage()));
+				
+			}
+		}
+	
 	// 아이디 중복 검사
 	@GetMapping("/user/duplicate_check_pro/{userId}")
 	public ResponseEntity<?> duplicateCheck(@PathVariable(value = "userId") String userId) { 
+		boolean isDuplicate = userService.duplicateCheck(userId);
+	    if(isDuplicate) {
+	    	return ResponseEntity.ok(Map.of("success", true, "message", "사용 가능한 아이디 입니다."));
+		} else {
+			return ResponseEntity.ok(Map.of("success", false, "message", "이미 사용중인 아이디 입니다."));
+	    }
+	}
+	
+	// 아이디 중복 검사
+	@GetMapping("/user_info/duplicate_check_pro/{userId}")
+	public ResponseEntity<?> duplicateCheckAdmin(@PathVariable(value = "userId") String userId) { 
 		boolean isDuplicate = userService.duplicateCheck(userId);
 	    if(isDuplicate) {
 	    	return ResponseEntity.ok(Map.of("success", true, "message", "사용 가능한 아이디 입니다."));
@@ -153,6 +202,7 @@ public class RestUserController {
 					.body(Map.of("success", false, "message", "업데이트 중 오류 발생: " + e.getMessage()));
 		}
 	}
+	
 	// 프로젝트 삭제
 	@PostMapping("user_info/project_delete_pro")
 	public ResponseEntity<?> prjDeletePro(@RequestBody List<UserProjectInfo> userProjectInfo){
@@ -190,6 +240,33 @@ public class RestUserController {
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(Map.of("success", false, "message", "프로젝트 추가 실패"));
+		}
+	}
+	
+	// =========================================================UserDetail Edit=================================================================================
+	// 유효성 검사
+	@PostMapping("/user_info/user_valid_pro")
+	public ResponseEntity<?> updateCheckPro(@Valid @RequestBody UserInfo userInfo, BindingResult result) {
+		if (result.hasErrors()) {
+			Map<String, String> errors = result.getFieldErrors().stream()
+					.collect(Collectors.toMap(FieldError::getField,
+							error -> messageSource.getMessage(error, Locale.getDefault()),
+							(existingValue, newValue) -> existingValue));
+			return ResponseEntity.badRequest().body(errors);
+		}
+		return ResponseEntity.ok(Map.of("success", true, "message", "유효성 검사 완료"));
+		//ResponseEntity.ok().body("유효성 검사 성공")
+	}
+	
+	// 유저 업데이트
+	@PutMapping("/user_info/user_update_pro")
+	public ResponseEntity<?> updateUserPro(@RequestBody UserInfo userInfo){
+		boolean isUpdated = userService.updateUserPro(userInfo);
+		if (isUpdated) {
+			return ResponseEntity.ok(Map.of("success", true, "message", "유저 정보 수정 성공"));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(Map.of("success", false, "message", "유저 정보 수정 실패"));
 		}
 	}
 }

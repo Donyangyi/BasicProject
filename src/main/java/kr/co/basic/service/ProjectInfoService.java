@@ -2,13 +2,11 @@ package kr.co.basic.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.basic.bean.ProjectInfo;
-import kr.co.basic.bean.UserProjectInfo;
 import kr.co.basic.dao.ProjectInfoDao;
 import kr.co.basic.mapper.ProjectInfoMapper;
 
@@ -102,6 +100,7 @@ public class ProjectInfoService {
 		}
 	}
 	
+	// 프로젝트 요규 스킬 등록
 	public boolean addPrjSkill(ProjectInfo projectInfo) {
 		try {
 			if(projectInfo.getSkills() != null) {
@@ -113,7 +112,37 @@ public class ProjectInfoService {
 			} else {
 				return true;
 			}
-			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	// 선택 프로젝트 삭제
+	@Transactional
+	public boolean deleteProject(List<String> prjSeqList){
+		try {
+			for(String prjSeq : prjSeqList) {
+				projectInfoMapper.deleteProject(prjSeq);
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	// 해당 프로젝트 정보 업데이트
+	@Transactional
+	public boolean modifyPrjPro(ProjectInfo projectInfo) {
+		try {
+			projectInfoMapper.modifyPrjPro(projectInfo);
+			projectInfoMapper.deletePrjSkill(projectInfo.getPrjSeq());
+			List<String> skills = projectInfo.getSkills();
+			for(String skill : skills) {
+				projectInfoMapper.addPrjSkill(projectInfo.getPrjSeq(), skill);
+			}
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
