@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>게시판 상세보기</title>
+    <title>OJT</title>
     <link href="${root}css/main_detail.css" rel="stylesheet" />
     <c:import url="/WEB-INF/views/include/version.jsp" />
 </head>
