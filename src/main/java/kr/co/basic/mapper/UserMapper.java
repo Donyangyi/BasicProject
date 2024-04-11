@@ -183,4 +183,8 @@ public interface UserMapper {
 			+ "JOIN AUTH_USER au ON am.authSeq = au.authSeq "
 			+ "WHERE au.userSeq = #{userSeq}")
 	List<String> getUrlList(String userSeq);
+	
+	// 유저 등록 거절
+	@Delete("CALL Delete_User(#{userSeq, mode=IN, jdbcType=VARCHAR})")
+	void rejectUser(String userSeq);
 }

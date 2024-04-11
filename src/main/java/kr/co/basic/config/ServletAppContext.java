@@ -99,7 +99,8 @@ public class ServletAppContext implements WebMvcConfigurer {
 		InterceptorRegistration reg3 = registry.addInterceptor(interceptorAuthority);
 		reg3.addPathPatterns("/project_info/project_search", "/project_info/project_register",
 							 "/user_info/user_search", "/user_info/user_regi_admin",
-							 "/user_info/user_regi_list");
+							 "/user_info/user_regi_list", "/project_info/project_edit",
+							 "/user_info/user_edit");
 	}
 
 	@Bean

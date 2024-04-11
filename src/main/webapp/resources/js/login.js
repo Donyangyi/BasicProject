@@ -2,6 +2,13 @@ $(document).ready(function(){
 	$('.login-btn').on('click', function(){
 		checkLogin();
 	});
+	
+	$(".login-left input").keypress(function(event) {
+        if (event.which == 13) { // 엔터
+            event.preventDefault();
+            checkLogin();
+        }
+    });
 });
 
 function regPage(){
