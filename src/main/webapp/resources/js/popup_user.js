@@ -42,36 +42,32 @@ $(document).ready(function() {
 	    var $thisRow = $(this).closest('tr');
 	    var startDate = new Date($(this).val());
 	    var endDate = new Date($thisRow.find('.end-date').val());
-	    var prjStartDate = new Date($thisRow.find('.prj-start-date').text());
-	    var prjEndDate = new Date($thisRow.find('.prj-end-date').text());
-	    var today = new Date();
+	    var prjStartDate = new Date(setStartDate); 
+    	var prjEndDate = new Date(setEndDate);
 	
 	    startDate.setHours(0, 0, 0, 0);
 	    endDate.setHours(0, 0, 0, 0);
 	    prjStartDate.setHours(0, 0, 0, 0);
 	    prjEndDate.setHours(0, 0, 0, 0);
-	    today.setHours(0, 0, 0, 0);
 	
 	    if (startDate > prjEndDate) {
-	        alert('투입일은 프로젝트 종료일 보다 늦을 수 없습니다.');
+	        alert('투입일은 프로젝트 종료일 보다 늦을 수 없습니다. (프로젝트 종료일 : ' + formatDate(prjEndDate) + " )");
 	        $(this).val(formatDate(prjEndDate));
 	    } else if (startDate < prjStartDate) {
-	        alert('투입일은 프로젝트 시작일 보다 빠를 수 없습니다.');
+	        alert('투입일은 프로젝트 시작일 보다 빠를 수 없습니다. (프로젝트 시작일 : ' + formatDate(prjStartDate) + " )");
 	        $(this).val(formatDate(prjStartDate));
 	    } else if (startDate > endDate) {
 	        alert('투입일은 철수일보다 늦을 수 없습니다.');
 	        $(this).val($(this).closest('tr').find('.end-date').val());
-	    } else if (startDate > today){
-			alert('투입일은 오늘 날짜보다 늦을 수 없습니다.')
-		}
+	    }
 	});
 	
 	$(document).on('change', '#modal-body .end-date', function() {
 	    var $thisRow = $(this).closest('tr');
 	    var startDate = new Date($thisRow.find('.start-date').val());
 	    var endDate = new Date($(this).val());
-	    var prjStartDate = new Date($thisRow.find('.prj-start-date').text());
-	    var prjEndDate = new Date($thisRow.find('.prj-end-date').text());
+	    var prjStartDate = new Date(setStartDate); 
+    	var prjEndDate = new Date(setEndDate);
 	
 	    startDate.setHours(0, 0, 0, 0);
 	    endDate.setHours(0, 0, 0, 0);
@@ -79,10 +75,10 @@ $(document).ready(function() {
 	    prjEndDate.setHours(0, 0, 0, 0);
 	
 	    if (endDate > prjEndDate) {
-	        alert('철수일은 프로젝트 종료일 보다 늦을 수 없습니다.');
+	        alert('철수일은 프로젝트 종료일 보다 늦을 수 없습니다. (프로젝트 종료일 : ' + formatDate(prjEndDate) + " )");
 	        $(this).val(formatDate(prjEndDate));
 	    } else if (endDate < prjStartDate) {
-	        alert('철수일은 프로젝트 시작일 보다 빠를 수 없습니다.');
+	        alert('철수일은 프로젝트 시작일 보다 빠를 수 없습니다. (프로젝트 시작일 : ' + formatDate(prjStartDate) + " )");
 	        $(this).val(formatDate(prjStartDate));
 	    } else if (endDate < startDate) {
 	        alert('철수일은 투입일보다 빠를 수 없습니다.');
@@ -92,7 +88,7 @@ $(document).ready(function() {
 });
 function clickSearch(){
 	var data = {
-		userNm: $('#user_name').val(),
+		userNm: $('#employee_name').val(),
     	skillRankCd: $('#skillLevel').val(),
     	prjSeq: selectPrjSeq
 	}

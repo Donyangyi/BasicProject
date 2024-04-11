@@ -1,4 +1,6 @@
 var selectPrjSeq = "";
+let setStartDate = "";
+let setEndDate = "";
 
 $(document).ready(function() {
     // 모달 창 띄우기
@@ -10,15 +12,23 @@ $(document).ready(function() {
             success: function(result) {
                 $("#modal-body").html(result);
                 $("#modal").show();
+                
                 if(now === 'prjDetail'){
+					setStartDate = $('#startDate').val();
+					setEndDate = $('#endDate').val();
+					
 					var prjSeq = $('#projectSeq').val();
 					selectPrjSeq = prjSeq;
 				}
 				
 				if(now === 'prjSearch'){
+					let prjStartDate = currentButton.closest('tr').find('.prj-start-date').text(); // 프로젝트 시작일
+				    let prjEndDate = currentButton.closest('tr').find('.prj-end-date').text(); // 프로젝트 종료일
+				    setStartDate = prjStartDate;
+				    setEndDate = prjEndDate;
+				    
 					var prjSeq = currentButton.closest('tr').find('td:nth-child(2)').text();
 					selectPrjSeq = prjSeq;
-					console.log(selectPrjSeq);
 				}
             }
         });
@@ -123,13 +133,20 @@ $(document).ready(function() {
 // 프로젝트 검색
 function searchProject() {
     var searchCriteria = {
-        prjNm: $('#project_name').val(),
-        customerNm: $('#client_name').val(),
+        prjNm: $('#project-name').val(),
+        customerNm: $('#client-name').val(),
         startFromDate: $('#launch-start-date').val(),
         startToDate: $('#launch-end-date').val(),
         endFromDate: $('#completion-start-date').val(),
         endToDate: $('#completion-end-date').val()
     };
+    
+    console.log(searchCriteria.prjNm)
+    console.log(searchCriteria.customerNm)
+    console.log(searchCriteria.startFromDate)
+    console.log(searchCriteria.startToDate)
+    console.log(searchCriteria.endFromDate)
+    console.log(searchCriteria.endToDate)
 
     $.ajax({
         url: 'search_project_pro',
@@ -163,8 +180,8 @@ function updateProject(response) {
             <td><a href="project_detail?prjSeq=${prj.prjSeq}">${prj.prjNm}</a></td>
             <td>${prj.customerNm}</td>
             <td>${skill}</td>
-            <td>${prj.prjStartDate}</td>
-            <td>${prj.prjEndDate}</td>
+            <td class="prj-start-date">${prj.prjStartDate}</td>
+            <td class="prj-end-date">${prj.prjEndDate}</td>
             <td><button class="manage-people">인원 관리</button></td>
         </tr>`;
         tbody.append(row); // 새로운 행을 테이블에 추가

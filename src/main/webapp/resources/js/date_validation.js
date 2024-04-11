@@ -29,7 +29,7 @@ $(document).ready(function(){
             return;
         }
         
-        if(now == 'prjRegi' || now == 'userSearch' || now == 'userDetail'){
+        if(now == 'prjRegi' || now == 'userSearch' || now == 'userDetail' || now == 'prjSearch'){
 			return false;
 		}
 

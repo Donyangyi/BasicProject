@@ -209,7 +209,6 @@ $(document).ready(function() {
     
     //입력 필드 또는 선택 필드의 초기 값 저장
     $('.search-results tbody tr, .search-results-popup tbody tr').each(function() {
-	console.log("실행중1");
         $(this).find('input[type="date"], select').each(function() {
             $(this).data('initial', $(this).val());
         });
@@ -217,7 +216,6 @@ $(document).ready(function() {
     
     // 입력 필드 또는 선택 필드의 값이 변경되었을 때 로직
     $('.search-results').on('change', 'input[type="date"], select', function() {
-	console.log("실행중2");
         var initialValue = $(this).data('initial');
         var currentValue = $(this).val();
         var $checkbox = $(this).closest('tr').find('input[type="checkbox"]');
