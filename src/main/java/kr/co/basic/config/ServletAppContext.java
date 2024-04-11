@@ -97,12 +97,9 @@ public class ServletAppContext implements WebMvcConfigurer {
 		InterceptorAuthority interceptorAuthority = new InterceptorAuthority(loginUserBean, userDao); // 권한에 맞는 url 접근
 		
 		InterceptorRegistration reg3 = registry.addInterceptor(interceptorAuthority);
-		reg3.addPathPatterns("/main_page/*", "/user_info/*", "/project_info/*")
-		.excludePathPatterns("/user/not_permission", "/user/user_regi", "/user_info/popup_project", "/user_info/user_detail",
-							 "/user_info/user_search", "/project_info/popup_user", "/project_info/project_detail",
-							 "/project_info/project_search", "/main_page/main");
-		
-		
+		reg3.addPathPatterns("/project_info/project_search", "/project_info/project_register",
+							 "/user_info/user_search", "/user_info/user_regi_admin",
+							 "/user_info/user_regi_list");
 	}
 
 	@Bean
