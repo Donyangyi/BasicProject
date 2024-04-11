@@ -84,7 +84,7 @@
 				<!-- 동적으로 검색 결과를 출력할 곳 -->
 			</div>
 			<div class="delete-button-container">
-				<button class="add-employee-button" style="display: none;" onclick="location.href='${root}user/user_regi'">추가</button>
+				<button class="add-employee-button" style="display: none;" onclick="location.href='${root}user_info/user_regi_admin'">추가</button>
 		        <button class="delete-button" style="display: none;">삭제</button>
 		    </div>
             <input type="hidden" id="page" name="page" value="${page}">

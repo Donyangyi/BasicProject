@@ -28,6 +28,7 @@
                     <c:forEach items="${boards}" var="board">
                         <c:if test="${board.detailNm == '공지사항 게시판'}">
                             <c:set var="hasNotice" value="true"/>
+                            <c:set var="nowCategoriCd" value="${board.categoriCd}" />
                             <tr>
                                 <td>${board.boardSeq}</td>
                                 <td>${board.boardTitle}</td>
@@ -44,7 +45,7 @@
                 </table>
                 <!-- 공지사항 게시판 더보기 버튼 -->
                 <div class="more-button">
-                    <a href="${root}main_page/main?boardType=notice">더보기</a>
+                    <a href="${root}main_page/detail?categoryCd=${nowCategoriCd}">더보기</a>
                 </div>
             </div>
         </div>
@@ -62,6 +63,7 @@
                     <c:forEach items="${boards}" var="board">
                         <c:if test="${board.detailNm == '사내 게시판'}">
                             <c:set var="hasInternal" value="true"/>
+                            <c:set var="nowCategoriCd" value="${board.categoriCd}" />
                             <tr>
                                 <td>${board.boardSeq}</td>
                                 <td>${board.boardTitle}</td>
@@ -78,7 +80,7 @@
                 </table>
                 <!-- 사내 게시판 더보기 버튼 -->
                 <div class="more-button">
-                    <a href="${root}main_page/main?boardType=internal">더보기</a>
+                    <a href="${root}main_page/detail?categoriCd=${nowCategoriCd}">더보기</a>
                 </div>
             </div>
         </div>

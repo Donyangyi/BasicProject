@@ -10,7 +10,7 @@ import kr.co.basic.bean.Boards;
 public interface MainPageMapper {
 	
 	//전체 게시판 정보 출력
-	@Select("select cd.dtlCodeNm as detailNm, iu.userNm, b.boardSeq, b.boardTitle, b.boardContent, b.boardRegiDate "
+	@Select("select cd.dtlCodeNm as detailNm, iu.userNm, b.boardSeq, b.boardTitle, b.boardContent, b.boardRegiDate, b.categoriCd "
 			+ "from BOARDS b join INFO_USER iu on b.userSeq = iu.userSeq "
 			+ "join CODE_DETAIL cd on cd.dCode = 'D090' and cd.dtlCode = b.categoriCd "
 			+ "where cd.dCode = 'D090' and b.categoriCd = #{categoriCd} order by boardSeq desc")

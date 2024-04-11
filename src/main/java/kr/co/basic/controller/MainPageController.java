@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.basic.bean.Boards;
 import kr.co.basic.service.MainPageService;
+import lombok.Getter;
 
 @Controller
 @RequestMapping("/main_page")
@@ -26,5 +27,12 @@ public class MainPageController {
 		model.addAttribute("boards", boards); //전체 게시판 세션에 저장
 		
 		return "main_page/main";
+	}
+	
+	@GetMapping("/detail")
+	public String detail(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+		
+		
+		return "main_page/detail";
 	}
 }
