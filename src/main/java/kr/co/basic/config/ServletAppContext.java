@@ -1,9 +1,12 @@
 package kr.co.basic.config;
 
+import javax.annotation.Resource;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,11 +16,17 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import kr.co.basic.bean.UserInfo;
+import kr.co.basic.dao.UserDao;
+import kr.co.basic.interceptor.CheckLoginInterceptor;
+import kr.co.basic.interceptor.InterceptorAuthority;
+import kr.co.basic.interceptor.InterceptorSidebar;
 import kr.co.basic.mapper.MainPageMapper;
 import kr.co.basic.mapper.ProjectInfoMapper;
 import kr.co.basic.mapper.UserInfoMapper;
@@ -29,6 +38,7 @@ import kr.co.basic.mapper.UserMapper;
 @ComponentScan("kr.co.basic.service")
 @ComponentScan("kr.co.basic.dao")
 @PropertySource("/WEB-INF/properties/db.properties")
+@PropertySource("/WEB-INF/properties/application.properties")
 public class ServletAppContext implements WebMvcConfigurer {
 
 	@Value("${db.classname}")
@@ -42,7 +52,13 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	@Value("${db.password}")
 	private String db_password;
-
+	
+	@Resource(name = "loginUserBean")
+	private UserInfo loginUserBean;
+	
+	@Autowired
+	private UserDao userDao;
+	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		// view로 보내질 최종 요청응답에 관한 환경설정
@@ -63,10 +79,29 @@ public class ServletAppContext implements WebMvcConfigurer {
 	      return new PropertySourcesPlaceholderConfigurer();
 	   }
 	
-	
+	//인터셉터 (접근 제한 및 로그인 객체 주입)
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		WebMvcConfigurer.super.addInterceptors(registry);
+		
+		InterceptorSidebar interceptorSidebar = new InterceptorSidebar(loginUserBean, userDao); // 사이드 바
+		
+		InterceptorRegistration reg1 = registry.addInterceptor(interceptorSidebar);
+		reg1.addPathPatterns("/**");
+		
+		CheckLoginInterceptor checkLoginInterceptor = new CheckLoginInterceptor(loginUserBean); // 로그인 여부
+		
+		InterceptorRegistration reg2 = registry.addInterceptor(checkLoginInterceptor);
+		reg2.addPathPatterns("/main_page/*", "/user_info/*", "/project_info/*");
+		
+		InterceptorAuthority interceptorAuthority = new InterceptorAuthority(loginUserBean, userDao); // 권한에 맞는 url 접근
+		
+		InterceptorRegistration reg3 = registry.addInterceptor(interceptorAuthority);
+		reg3.addPathPatterns("/main_page/*", "/user_info/*", "/project_info/*")
+		.excludePathPatterns("/user/not_permission", "/user/user_regi", "/user_info/popup_project", "/user_info/user_detail",
+							 "/user_info/user_search", "/project_info/popup_user", "/project_info/project_detail",
+							 "/project_info/project_search", "/main_page/main");
+		
 		
 	}
 

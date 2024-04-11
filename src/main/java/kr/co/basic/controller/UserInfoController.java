@@ -1,5 +1,6 @@
 package kr.co.basic.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import kr.co.basic.bean.UserProjectInfo;
 import kr.co.basic.bean.UserSkill;
 import kr.co.basic.dao.UserDao;
 import kr.co.basic.dao.UserInfoDao;
+import kr.co.basic.mapper.UserInfoMapper;
 import kr.co.basic.service.UserInfoService;
 
 @Controller
@@ -152,7 +154,11 @@ public class UserInfoController {
 	}
 	
 	@GetMapping("/user_regi_list")
-	public String user_regi_list() {
+	public String user_regi_list(Model model) {
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserStateCd("1");
+		ArrayList<UserInfo> userList = userInfoDao.userAllSearchNoPage(userInfo);
+		model.addAttribute("userList", userList);
 		return "user_info/user_regi_list";
 	}
 }

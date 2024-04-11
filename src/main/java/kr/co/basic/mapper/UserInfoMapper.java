@@ -42,6 +42,32 @@ public interface UserInfoMapper {
 			+ "  ORDER BY iu.userSeq")
 	ArrayList<UserInfo> userAllSearch(UserInfo userInfo, RowBounds rowBounds);
 	
+	// 사원 정보 출력 (모든 조건이 null일 시 전체 회원 조회)
+		@Select("SELECT iu.userSeq, iu.userNm, iu.userId, iu.userPw, "
+				+ "       gd.dtlCodeNm AS gender, "
+				+ "       iu.phoneNumber, iu.regiDate, "
+				+ "       pd.dtlCodeNm AS position, "
+				+ "       skd.dtlCodeNm AS skillRank, "
+				+ "       iu.email, iu.address, "
+				+ "       wsd.dtlCodeNm AS workState, "
+				+ "       usd.dtlCodeNm AS userState, "
+				+ "       iu.userRegiDate, iu.userImage "
+				+ "FROM INFO_USER iu "
+				+ "INNER JOIN CODE_DETAIL gd ON iu.genderCd = gd.dtlCode AND gd.dCode = 'D010' "
+				+ "LEFT JOIN CODE_DETAIL pd ON iu.posCd = pd.dtlCode AND pd.dCode = 'D020' "
+				+ "LEFT JOIN CODE_DETAIL skd ON iu.skillRankCd = skd.dtlCode AND skd.dCode = 'D030' "
+				+ "INNER JOIN CODE_DETAIL wsd ON iu.workStateCd = wsd.dtlCode AND wsd.dCode = 'D040' "
+				+ "INNER JOIN CODE_DETAIL usd ON iu.userStateCd = usd.dtlCode AND usd.dCode = 'D070' "
+				+ "WHERE (iu.userNm LIKE #{userNm, jdbcType=VARCHAR} OR #{userNm, jdbcType=VARCHAR} IS NULL) "
+				+ "  AND (pd.dtlCode = #{posCd, jdbcType=VARCHAR} OR #{posCd, jdbcType=VARCHAR} IS NULL) "
+				+ "  AND (wsd.dtlCode = #{workStateCd, jdbcType=VARCHAR} OR #{workStateCd, jdbcType=VARCHAR} IS NULL) "
+				+ "  AND (iu.regiDate BETWEEN #{startDate, jdbcType=VARCHAR} AND #{endDate, jdbcType=VARCHAR} OR (#{startDate, jdbcType=VARCHAR} IS NULL AND #{endDate, jdbcType=VARCHAR} IS NULL)) "
+				+ "  AND iu.userStateCd = #{userStateCd} "
+				+ "  ORDER BY iu.userSeq")
+		ArrayList<UserInfo> userAllSearchNoPage(UserInfo userInfo);
+	
+	
+	
 	// 검색 조건에 해당하는 사원 수
 	@Select("SELECT COUNT(*) FROM INFO_USER iu "
 	        + "INNER JOIN CODE_DETAIL gd ON iu.genderCd = gd.dtlCode AND gd.dCode = 'D010' "

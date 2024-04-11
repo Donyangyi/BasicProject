@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.basic.bean.MenuBean;
 import kr.co.basic.bean.UserInfo;
 import kr.co.basic.bean.UserSkill;
 import kr.co.basic.mapper.UserMapper;
@@ -77,5 +78,15 @@ public class UserDao {
 	// 모든 등록상태 조회
 	public List<UserSkill> searchAllRegiState() {
 		return userMapper.searchAllRegiState();
+	}
+	
+	// 한 유저의 권한에 따른 메뉴 보이기
+	public List<MenuBean> getMenuList(String userSeq) {
+		return userMapper.getMenuList(userSeq);
+	}
+	
+	// 한 유저의 권한에 따른 메뉴 보이기
+	public List<String> getUrlList(String userSeq) {
+		return userMapper.getUrlList(userSeq);
 	}
 }

@@ -25,6 +25,11 @@ public class UserInfoDao {
 	public ArrayList<UserInfo> userAllSearch(UserInfo userInfo, RowBounds rowBounds) {
 		return userInfoMapper.userAllSearch(userInfo, rowBounds);
 	}
+	
+	// 사원 정보 출력 (모든 조건이 null일 시 전체 회원 조회)
+	public ArrayList<UserInfo> userAllSearchNoPage(UserInfo userInfo) {
+		return userInfoMapper.userAllSearchNoPage(userInfo);
+	}
 
 	// ============================================================UserSearch====================================================================================
 	// 한 유저에 대한 정보

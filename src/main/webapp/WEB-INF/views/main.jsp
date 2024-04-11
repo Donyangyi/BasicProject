@@ -9,6 +9,7 @@
 <title>OJT</title>
 <link href="${root}css/login.css" rel="stylesheet" />
 <c:import url="/WEB-INF/views/include/version.jsp" />
+<script src="${root}js/login.js"></script>
 </head>
 <body>
     <div class="login-container">
@@ -31,20 +32,9 @@
 	        </div>
 	    </div>
 	    <div class="login-right">
-	        <button type="submit" class="login-btn" onclick="mainPage()">로그인</button>
+	        <button type="button" class="login-btn">로그인</button>
 	        <button type="button" class="register-btn" onclick="regPage()">회원등록</button>
 	    </div>
 	</div>
-<script>
-// 회원등록 페이지로 전환
-function regPage(){
-	location.href="${root}user/user_regi";
-}
-
-// 로그인 성공 후 메인 페이지로 전환
-function mainPage(){
-	location.href="${root}main_page/main"
-}
-</script>
 </body>
 </html>

@@ -1,10 +1,16 @@
 package kr.co.basic.service;
 
 import java.io.File;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.io.FilenameUtils;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -28,6 +34,9 @@ public class UserService {
 	
 	@Autowired
 	private UserInfoDao userInfoDao;
+	
+	@Resource(name = "loginUserBean")
+	private UserInfo loginUserBean;
 
 	@Value("${path.upload}")
 	private String path_upload;
@@ -53,7 +62,7 @@ public class UserService {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUserNm(name);
 		userInfo.setUserId(userId);
-		userInfo.setUserPw(userPw);
+		userInfo.setUserPw(encryptPassword(userPw));
 		userInfo.setGenderCd(gender);
 		userInfo.setPhoneNumber(phone);
 		userInfo.setRegiDate(regiDate);
@@ -99,6 +108,26 @@ public class UserService {
 			return false;
 		}
 	}
+	
+	// 패스워드 암호화
+	public static String encryptPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+            return bytesToHex(md.digest());
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 알고리즘이 없습니다.", e);
+        }
+    }
+	
+	// 16진수로 바이트 포멧팅
+	private static String bytesToHex(byte[] bytes) {
+        StringBuilder builder = new StringBuilder();
+        for (byte b : bytes) {
+            builder.append(String.format("%02x", b));
+        }
+        return builder.toString();
+    }
 	
 	// 아이디 중복 검사
 	public boolean duplicateCheck(String userId) {
@@ -158,5 +187,43 @@ public class UserService {
 	        return false;
 	    }
 	}
-
+	
+	//로그인
+	public boolean login(UserInfo userInfo) {
+	    userInfo.setUserPw(encryptPassword(userInfo.getUserPw()));
+	    UserInfo user = userMapper.login(userInfo);
+	    if(user == null) {
+	        return false;
+	    } else {
+	    	/*
+	        // userSeq의 값이 U로 시작하는 경우 authorityCd를 2로 설정
+	        if(user.getUserSeq().startsWith("U")) {
+	            user.setAuthorityCd("2");
+	        }
+	        // userSeq의 값이 M으로 시작하는 경우 authorityCd를 1로 설정
+	        else if(user.getUserSeq().startsWith("M")) {
+	            user.setAuthorityCd("1");
+	        }
+	        */
+	        // UserInfo 객체의 정보를 loginUserBean에 복사
+	        BeanUtils.copyProperties(user, loginUserBean);
+	        loginUserBean.setLogin(true);
+	        return true;
+	    }
+	}
+	
+	/*
+	//로그인
+	public boolean login(UserInfo userInfo) {
+		userInfo.setUserPw(encryptPassword(userInfo.getUserPw()));
+		UserInfo user = userMapper.login(userInfo);
+		if(user == null) {
+			return false;
+		} else {
+			BeanUtils.copyProperties(user, loginUserBean);
+			loginUserBean.setLogin(true);
+			return true;
+		}
+	}
+	*/
 }

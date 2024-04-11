@@ -14,6 +14,7 @@
     position: relative;
 }
 
+
 button {
     width: 100%;
     margin: 0;
@@ -51,3 +52,12 @@ button:hover, .sub-menu button:hover {
 .spacer {
     flex-grow: 1;
 }
+
+/*
+.menu-item:hover .sub-menu {
+    display: block; 
+    position: static; 
+    width: 100%; 
+    box-shadow: none; 
+}
+*/

@@ -130,8 +130,6 @@ function searchProject() {
         endFromDate: $('#completion-start-date').val(),
         endToDate: $('#completion-end-date').val()
     };
-    
-    console.log('')
 
     $.ajax({
         url: 'search_project_pro',
@@ -146,7 +144,9 @@ function searchProject() {
             $(".add-project-button").show();
         },
         error: function(xhr, status, error) {
-            console.error(xhr.status);
+            console.error("Error: ", xhr.status); // HTTP 상태 코드
+		    console.error("Status: ", status); // 오류 상태
+		    console.error("Error: ", error); // 오류 메시지
         }
     });
 }

@@ -56,4 +56,10 @@ public class UserInfo {
 	private String dtlCode;
 	private List<String> skillList;
 	private boolean admin;
+	private boolean login;
+	private String authorityCd;
+	
+	public UserInfo() {
+		this.login = false;
+	}
 }

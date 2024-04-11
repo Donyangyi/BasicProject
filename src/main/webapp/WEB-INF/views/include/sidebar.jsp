@@ -6,25 +6,23 @@
 <link href="${root}css/sidebar.css" rel="stylesheet" />
 
 <div class="sidebar">
-    <div class="menu-item">
-        <button onclick="location.href='${root}user_info/user_search'">사원 관리</button>
-        <div class="sub-menu">
-            <button onclick="location.href='${root}user_info/user_search'">사원 정보 조회</button>
-            <button onclick="location.href='${root}user_info/user_regi_list'">사원 등록 대기 리스트</button>
-            <button onclick="location.href='${root}user_info/user_regi_admin'">사원 등록</button>
-        </div>
-    </div>
-    <div class="menu-item">
-        <button onclick="location.href='${root}project_info/project_search'">프로젝트 관리</button>
-        <div class="sub-menu">
-            <button onclick="location.href='${root}project_info/project_search'">프로젝트 정보 조회</button>
-            <button onclick="location.href='${root}project_info/project_register'">프로젝트 등록</button>
-        </div>
-    </div>
+    <c:forEach var="menu" items="${menuBean}">
+        <c:if test="${menu.menuType == 'main'}">
+            <div class="menu-item">
+                <button onclick="location.href='${menu.menuUrl}'">${menu.menuNm}</button>
+                <!-- 서브 메뉴 컨테이너 시작 -->
+                <div class="sub-menu">
+                    <c:forEach var="subMenu" items="${menuBean}">
+                        <c:if test="${subMenu.parentSeq == menu.menuSeq}">
+                            <button onclick="location.href='${subMenu.menuUrl}'">${subMenu.menuNm}</button>
+                        </c:if>
+                    </c:forEach>
+                </div>
+                <!-- 서브 메뉴 컨테이너 끝 -->
+            </div>
+        </c:if>
+    </c:forEach>
     <div class="spacer"></div>
-    <div class="menu-item">
-        <button>권한 관리</button>
-    </div>
 </div>
 
 <script src="${root}js/sidebar.js"></script>

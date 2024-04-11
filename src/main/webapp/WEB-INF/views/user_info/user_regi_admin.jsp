@@ -19,7 +19,7 @@
 	<div class="container">
 		<div class="left-panel">
 			<div class="logo">
-				<a href="${root}main"> <img src="${root}image/Basic_Logo.png" alt="Logo"></a>
+				<a href="${root}main_page/main"> <img src="${root}image/Basic_Logo.png" alt="Logo"></a>
 			</div>
 			<div class="user-image">
 			    <img src="${root}image/user-placeholder.png" alt="User Image" id="userImgPreview">

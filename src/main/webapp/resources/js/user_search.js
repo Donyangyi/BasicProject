@@ -317,13 +317,16 @@ function loadData(selectedPage, listSize = selectedListSize) {
             listSize: listSize
         },
         success: function(response) {
+			console.log(response.users);
             updateTable(response.users);
             updateButton(response.pageBean, listSize);
             $(".delete-button").show();
             $(".add-employee-button").show();
         },
         error: function(xhr, status, error) {
-            console.error("error: ", xhr.status);
+            console.error("Error: ", xhr.status); // HTTP 상태 코드
+		    console.error("Status: ", status); // 오류 상태
+		    console.error("Error: ", error); // 오류 메시지
         }
     });
 }

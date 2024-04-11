@@ -52,7 +52,7 @@ public class RestUserController {
 			@RequestParam(value = "startDate", required = false) String startDate,
 			@RequestParam(value = "endDate", required = false) String endDate, @RequestParam(value = "page") int page,
 			@RequestParam(value = "listSize") int listSize) {
-
+		
 		// 검색 조건을 이용한 사용자 정보 조회
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUserNm(userNm);
@@ -63,7 +63,7 @@ public class RestUserController {
 
 		List<UserInfo> users = userInfoService.userAllSearch(userInfo, page, listSize);
 		PageBean pageBean = userInfoService.getSearchCnt(userInfo, page, listSize);
-
+		
 		Map<String, Object> response = new HashMap<>();
 		response.put("users", users);
 		response.put("pageBean", pageBean);

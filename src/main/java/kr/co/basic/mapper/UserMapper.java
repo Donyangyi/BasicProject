@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
+import kr.co.basic.bean.MenuBean;
 import kr.co.basic.bean.UserInfo;
 import kr.co.basic.bean.UserSkill;
 
@@ -134,4 +135,52 @@ public interface UserMapper {
 	@Delete("DELETE FROM info_user_skill WHERE userSeq = #{userSeq} AND dtlCode = #{dtlCode}")
 	void deleteSkill(UserSkill userSkill);
 	
+	// 로그인
+	@Select("SELECT userSeq, "
+			+ "        userNm, "
+			+ "        userId, "
+			+ "        userPw, "
+			+ "        genderCd, "
+			+ "        phoneNumber, "
+			+ "        regiDate, "
+			+ "        posCd, "
+			+ "        skillRankCd, "
+			+ "        email, "
+			+ "        address, "
+			+ "        workStateCd, "
+			+ "        userStateCd, "
+			+ "        userRegiDate, "
+			+ "        userImage "
+			+ "FROM info_user "
+			+ "WHERE userId = #{userId} "
+			+ "and userPw = #{userPw} "
+			+ "and userStateCd = '2'")
+	UserInfo login(UserInfo userInfo);
+	
+	// 유저 등록 상태 업데이트
+	@Update("update info_user "
+			+ "set userStateCd = '2' "
+			+ "where userSeq = #{userSeq}")
+	void updateUserState(String userSeq);
+	
+	// 한 유저의 권한에 따른 메뉴 보이기
+	@Select("SELECT DISTINCT m.menuSeq, "
+			+ "    m.menuType, "
+			+ "    m.menuNm, "
+			+ "    m.menuUrl, "
+			+ "    m.parentSeq "
+			+ "FROM MENU m "
+			+ "JOIN AUTH_MENU am ON m.menuSeq = am.menuSeq "
+			+ "JOIN AUTH_USER au ON am.authSeq = au.authSeq "
+			+ "WHERE au.userSeq = #{userSeq} "
+			+ "ORDER BY TO_NUMBER(m.menuSeq)")
+	List<MenuBean> getMenuList(String userSeq);
+	
+	// 접근 가능한 URL 정보
+	@Select("SELECT DISTINCT m.menuUrl "
+			+ "FROM MENU m "
+			+ "JOIN AUTH_MENU am ON m.menuSeq = am.menuSeq "
+			+ "JOIN AUTH_USER au ON am.authSeq = au.authSeq "
+			+ "WHERE au.userSeq = #{userSeq}")
+	List<String> getUrlList(String userSeq);
 }
