@@ -1,0 +1,42 @@
+/* 컨텐츠 영역 전체 스타일 */
+.content {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-top: 20px;
+}
+
+/* 게시판 테이블 스타일 */
+.board {
+    width: 80%; /* 테이블 폭을 전체 컨텐츠의 80%로 설정 */
+    border-collapse: collapse;
+    margin: 0 auto; /* 테이블을 중앙에 위치시키기 */
+}
+
+.board th, .board td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+.board th {
+    background-color: #f2f2f2; /* 테이블 헤더 배경색 */
+}
+
+/* '더보기' 버튼 스타일 */
+.more-button {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.more-button a {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.more-button a:hover {
+    background-color: #45a049;
+}

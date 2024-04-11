@@ -45,7 +45,7 @@
                 </table>
                 <!-- 공지사항 게시판 더보기 버튼 -->
                 <div class="more-button">
-                    <a href="${root}main_page/detail?categoryCd=${nowCategoriCd}">더보기</a>
+                    <a href="${root}main_page/detail?categoriCd=${nowCategoriCd}">더보기</a>
                 </div>
             </div>
         </div>

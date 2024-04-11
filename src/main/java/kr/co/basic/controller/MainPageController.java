@@ -30,9 +30,11 @@ public class MainPageController {
 	}
 	
 	@GetMapping("/detail")
-	public String detail(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+	public String detail(Model model, @RequestParam(value = "page", defaultValue = "1") int page,
+						 @RequestParam(value = "categoriCd") String categoriCd) {
 		
-		
+		List<Boards> boards = mainPageService.getBoardInfo(page, categoriCd);
+		model.addAttribute("boards", boards); //전체 게시판 세션에 저장
 		return "main_page/detail";
 	}
 }

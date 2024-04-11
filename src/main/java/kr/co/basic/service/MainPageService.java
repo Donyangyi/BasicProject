@@ -46,6 +46,14 @@ public class MainPageService {
 		return boardInfo;
 	}
 	
+	//선택 게시판 정보 출력
+		public List<Boards> getBoardInfo(int page, String categoriCd) {
+			int start = (page - 1) * page_listcnt;
+			RowBounds rowBounds = new RowBounds(start, page_listcnt);
+			
+			return mainPageDao.BoardAllInfo(categoriCd, rowBounds);
+		}
+	
 	//각 게시판 별 게시글 갯수
 	public ArrayList<PageBean> getBoardCnt(int currentPage) {
 		int boardCnt = mainPageMapper.BoardCnt();
