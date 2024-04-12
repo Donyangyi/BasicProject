@@ -40,3 +40,29 @@
 .more-button a:hover {
     background-color: #45a049;
 }
+
+.board td {
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.detail-content {
+    display: block;
+    overflow: hidden;
+    height: auto;
+    max-height: 15em;
+    line-height: 1.5em;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: break-spaces;
+}
+
+.detail-row {
+    display: none;
+}
+
+.active-row {
+    display: table-row;
+}

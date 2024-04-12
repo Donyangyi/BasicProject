@@ -7,6 +7,7 @@
     <title>OJT</title>
     <link href="${root}css/main_detail.css" rel="stylesheet" />
     <c:import url="/WEB-INF/views/include/version.jsp" />
+    <script src="${root}js/main_detail.js"></script>
 </head>
 <body>
     <c:import url="/WEB-INF/views/include/sidebar.jsp" />
@@ -23,16 +24,24 @@
                     <th>작성일</th>
                     <th>작성자</th>
                 </tr>
-                <!-- 서버에서 categoryCd에 해당하는 게시글 리스트를 boards 변수로 전달한다고 가정 -->
-                <c:forEach items="${boards}" var="board">
-                    <tr>
-                        <td>${board.boardSeq}</td>
-                        <td>${board.boardTitle}</td>
-                        <td>${board.boardContent}</td>
-                        <td>${board.boardRegiDate}</td>
-                        <td>${board.userNm}</td>
-                    </tr>
-                </c:forEach>
+                <c:forEach items="${boards}" var="board" varStatus="status">
+				    <tr class="${status.index == 0 ? 'board-row latest' : 'board-row'}" data-target="#detail-${status.index}">
+				        <td>${board.boardSeq}</td>
+				        <td><a href="${root}main_page/board_detail?boardSeq=${board.boardSeq}">${board.boardTitle}</a></td>
+				        <td>${board.boardContent}</td>
+				        <td>${board.boardRegiDate}</td>
+				        <td>${board.userNm}</td>
+				    </tr>
+				    <!-- 상세 내용 행 -->
+				    <%-- <tr id="detail-${status.index}" class="detail-row">
+					    <td colspan="5" class="detail-content">${board.boardContent}</td>
+					</tr> --%>
+					<tr id="detail-${status.index}" class="detail-row">
+					    <td colspan="5">
+					        <div class="detail-content">${board.boardContent}</div>
+					    </td>
+					</tr>
+				</c:forEach>
             </table>
         </div>
     </div>
