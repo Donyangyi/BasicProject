@@ -24,4 +24,8 @@ public class MainPageDao {
 	public int getBoardCnt(String categoriCd) {
 		return mainPageMapper.getBoardCnt(categoriCd);
 	}
+	
+	public Boards getBoardInfo(String boardSeq) {
+		return mainPageMapper.getBoardInfo(boardSeq);
+	}
 }

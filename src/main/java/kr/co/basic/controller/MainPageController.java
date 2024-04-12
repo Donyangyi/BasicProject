@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.basic.bean.Boards;
+import kr.co.basic.dao.MainPageDao;
 import kr.co.basic.service.MainPageService;
 import lombok.Getter;
 
@@ -19,6 +20,9 @@ public class MainPageController {
 	
 	@Autowired
 	private MainPageService mainPageService;
+	
+	@Autowired
+	private MainPageDao mainPageDao;
 
 	@GetMapping("/main")
 	public String main(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
@@ -37,4 +41,14 @@ public class MainPageController {
 		model.addAttribute("boards", boards); //전체 게시판 세션에 저장
 		return "main_page/detail";
 	}
+	
+	@GetMapping("/board_detail")
+	public String board_detail(@RequestParam(value = "boardSeq") String boardSeq, Model model) {
+		
+		Boards boardBean = mainPageDao.getBoardInfo(boardSeq);
+		model.addAttribute("boardBean", boardBean);
+		
+		return "main_page/board_detail";
+	}
+	
 }
