@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.basic.bean.Boards;
+import kr.co.basic.bean.Comments;
 import kr.co.basic.mapper.MainPageMapper;
 
 @Repository
@@ -27,5 +28,22 @@ public class MainPageDao {
 	
 	public Boards getBoardInfo(String boardSeq) {
 		return mainPageMapper.getBoardInfo(boardSeq);
+	}
+	
+	public List<Comments> getComments(String boardSeq) {
+		return mainPageMapper.getComments(boardSeq);
+	}
+	
+	// 대댓글 작성
+	public void submitReplyPro(Comments comments) {
+		mainPageMapper.submitReplyPro(comments);
+	}
+	
+	public void submitPost(Boards boards){
+		mainPageMapper.submitPost(boards);
+	}
+	
+	public void updateBoardPro(Boards boards){
+		mainPageMapper.updateBoardPro(boards);
 	}
 }

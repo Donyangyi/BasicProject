@@ -144,13 +144,29 @@ public class UserInfoService {
 	
 	// 프로젝트에 인원 추가
 	public boolean prjAddPro(List<UserProjectInfo> userProjectsInfo){
-		try {
-			for(UserProjectInfo userProjectInfo : userProjectsInfo) {
-				userInfoMapper.prjAddPro(userProjectInfo);
+		boolean checked = checkList(userProjectsInfo);
+		if(checked) {
+			try {
+				for(UserProjectInfo userProjectInfo : userProjectsInfo) {
+					userInfoMapper.prjAddPro(userProjectInfo);
+				}
+				return true;
+			} catch (Exception e) {
+				return false;
 			}
-			return true;
-		} catch (Exception e) {
+		} else {
 			return false;
 		}
+	}
+	
+	private boolean checkList(List<UserProjectInfo> userProjectsInfo) {
+		for(int i = 0; i < userProjectsInfo.size(); i++) {
+			if(userProjectsInfo.get(i).getUpStartDate() == null || userProjectsInfo.get(i).getUpStartDate().equals("")) {
+				return false;
+			} else if(userProjectsInfo.get(i).getRoleCd() == null || userProjectsInfo.get(i).getRoleCd() == "") {
+				return false;
+			}
+		}
+		return true;
 	}
 }

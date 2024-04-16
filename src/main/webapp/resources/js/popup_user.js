@@ -167,6 +167,11 @@ function addUserToProject() {
 		    });
 		}
     });
+    
+    for(let i = 0; i < selectedUsers.length; i++){
+		console.log(selectedUsers[i]);
+	}
+    
     if(selectedUsers.length > 0){
 	    $.ajax({
 	        url: 'prj_join_pro',

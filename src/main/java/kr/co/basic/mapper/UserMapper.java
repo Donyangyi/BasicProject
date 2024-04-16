@@ -157,6 +157,11 @@ public interface UserMapper {
 			+ "and userStateCd = '2'")
 	UserInfo login(UserInfo userInfo);
 	
+	// 로그인 객체 권한 여부
+	@Select("SELECT authSeq from auth_user "
+			+ "where userSeq = #{userSeq}")
+	List<String> getAuth(String userSeq);
+	
 	// 유저 등록 상태 업데이트
 	@Update("update info_user "
 			+ "set userStateCd = '2' "

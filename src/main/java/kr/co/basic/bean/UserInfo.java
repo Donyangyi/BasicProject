@@ -25,7 +25,7 @@ public class UserInfo {
 	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$])[A-Za-z\\d!@#$]{7,20}$")
 	private String userPw;
 	private String genderCd;
-	@Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$")
+	@Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$")
 	private String phoneNumber;
 	@Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$")
 	private String regiDate;
@@ -57,7 +57,7 @@ public class UserInfo {
 	private List<String> skillList;
 	private boolean admin;
 	private boolean login;
-	private String authorityCd;
+	private List<String> authorityCd;
 	
 	public UserInfo() {
 		this.login = false;

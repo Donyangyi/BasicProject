@@ -2,11 +2,13 @@ body, html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Arial, sans-serif; /* 폰트 스타일 추가 */
 }
 
 .main-container {
     margin-left: 200px;
     padding: 20px;
+    padding-top: 40px; /* 상단 패딩 조정 */
 }
 
 h2 {
@@ -27,36 +29,44 @@ th, td {
 
 thead {
     background-color: #f2f2f2;
-    position: sticky;
-    top: 0;
 }
 
 .buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* 버튼을 중앙으로 조정 */
     margin-top: 20px;
 }
 
 .approve, .reject {
     padding: 10px 20px;
     cursor: pointer;
-    min-width: 10%;
-    width: auto;
+    min-width: 100px; /* 최소 너비 설정 */
 }
 
 .approve {
-    margin-left: calc(50% - 400px);
+    background-color: #4CAF50; /* 승인 버튼 색상 */
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
 
 .reject {
-    margin-right: calc(50% - 400px);
-}
-
-.search-results tbody tr:hover {
-    background-color: #f2f2f2;
+    background-color: #f44336; /* 거절 버튼 색상 */
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
 
 .search-results {
-    max-height: 300px;
-    overflow-y: auto;
+    max-height: 300px; /* 최대 높이 설정 */
+    overflow-y: auto; /* Y축으로 스크롤바 표시 */
+    margin-top: 20px;
+}
+
+.search-results tbody tr:hover {
+    background-color: #f5f5f5; /* 호버 색상 조정 */
+}
+
+.button{
+	width: auto;
 }

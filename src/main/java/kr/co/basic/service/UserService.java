@@ -205,6 +205,8 @@ public class UserService {
 	            user.setAuthorityCd("1");
 	        }
 	        */
+	    	user.setAuthorityCd(userMapper.getAuth(user.getUserSeq()));
+	    	
 	        // UserInfo 객체의 정보를 loginUserBean에 복사
 	        BeanUtils.copyProperties(user, loginUserBean);
 	        loginUserBean.setLogin(true);

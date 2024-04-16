@@ -47,10 +47,10 @@
 	            	</c:forEach>
 	            </tbody>
 	        </table>
-	        <div class="buttons">
-	            <button class="approve">승인</button>
-	            <button class="reject">거절</button>
-	        </div>
+        </div>
+        <div class="buttons">
+            <button class="approve button">승인</button>
+            <button class="reject button">거절</button>
         </div>
     </div>
 </body>

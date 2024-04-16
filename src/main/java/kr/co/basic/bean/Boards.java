@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Boards {
-	private String uesrSeq;
+	private String userSeq;
 	private String boardSeq;
 	private String categoriCd;
 	private String boardTitle;
